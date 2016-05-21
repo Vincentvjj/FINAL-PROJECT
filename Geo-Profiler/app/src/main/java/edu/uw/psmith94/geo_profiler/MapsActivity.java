@@ -1,6 +1,7 @@
 package edu.uw.psmith94.geo_profiler;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -25,7 +27,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
 GoogleApiClient.OnConnectionFailedListener, LocationListener{
@@ -33,6 +38,8 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
     private static final String TAG = "MAP";
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
+    private Location curLoc;
+    private Marker curLocMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,20 +94,19 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.menu_list:
-                Log.v(TAG, "List clicked");
+//                Intent intent = new Intent(MapsActivity.this, ListProfiles.class);
+//                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private final int REQUEST_CODE = 0;
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         getLocation(null);
 
-        LocationRequest request = new LocationRequest();
-        request.setInterval(10000);
-        request.setFastestInterval(5000);
-        request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        LocationRequest request = locationRequest();
 
         int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if(permission == PackageManager.PERMISSION_GRANTED){
@@ -109,7 +115,14 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
         else{
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    1);
+                    REQUEST_CODE);
+        }
+        curLoc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if(curLoc != null) {
+            LatLng latlng = new LatLng(curLoc.getLatitude(), curLoc.getLongitude());
+            curLocMarker = mMap.addMarker(new MarkerOptions().position(latlng).title("Current Location"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 16.0f));
         }
     }
 
@@ -120,7 +133,11 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
     @Override
     public void onLocationChanged(Location location) {
-
+        if(location != null) {
+            updateMap(location);
+        }else{
+            Log.v(TAG, "Got null location");
+        }
     }
 
     @Override
@@ -131,9 +148,17 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case 1: {
+            case REQUEST_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    onConnected(null);
+                    LocationRequest request = locationRequest();
+                    int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+                    LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, request, this);
+                }else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("This app requires Location Access to function.")
+                            .setTitle("Closing app");
+                    AlertDialog dialog = builder.create();
+                    finish();
                 }
             }
             default:
@@ -153,5 +178,30 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
             mMap.addMarker(new MarkerOptions().position(point));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(point));
         }
+    }
+
+    //Updates map by moving camera and marker to new location and draws line if applicable
+    public void updateMap(Location location){
+        if(location != null) {
+            if(curLocMarker != null) {
+                curLocMarker.remove();
+            }
+            curLoc = location;
+            LatLng current = new LatLng(location.getLatitude(), location.getLongitude());
+            curLocMarker = mMap.addMarker(new MarkerOptions().position(current).title("Current Location"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 16.0f));
+        }else{
+            Log.v(TAG, "Got null location");
+        }
+    }
+
+    //Request to get location
+    public LocationRequest locationRequest(){
+        LocationRequest request = new LocationRequest();
+        request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        request.setInterval(10000);
+        request.setFastestInterval(5000);
+        return request;
     }
 }
