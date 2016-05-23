@@ -37,6 +37,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ListProfiles" android:parentActivityName=".MapsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.uw.psmith94.geo_profiler.MapsActivity" />
+        </activity>
+        <activity android:name=".NewProfileActivity" android:parentActivityName=".MapsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.uw.psmith94.geo_profiler.MapsActivity" />
+        </activity>
     </application>
 
 </manifest>
