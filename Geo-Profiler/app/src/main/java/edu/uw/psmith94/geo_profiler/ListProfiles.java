@@ -11,6 +11,9 @@ public class ListProfiles extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.list_profiles);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         super.onCreate(savedInstanceState);
     }
 }

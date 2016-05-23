@@ -30,6 +30,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
 GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
@@ -38,6 +40,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
     GoogleApiClient mGoogleApiClient;
     private Location curLoc;
     private Marker curLocMarker;
+    private static ArrayList<Marker> markers = new ArrayList<Marker>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +81,27 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(20));
 
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                googleMap.addMarker(new MarkerOptions().position(latLng));
+                Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
+                marker.setPosition(latLng);
+                markers.add(marker);
+                Intent intent = new Intent(MapsActivity.this, NewProfileActivity.class);
+                intent.putExtra("edu.uw.psmith94.latlng", latLng);
+                startActivity(intent);
+            }
+        });
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if(!marker.equals(curLocMarker)){
+                    Intent intent = new Intent(MapsActivity.this, DetailActivity.class);
+                    startActivity(intent);
+                }
+                return true;
             }
         });
     }
@@ -99,7 +117,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.menu_list:
-                Intent intent = new Intent(MapsActivity.this, NewProfileActivity.class);
+                Intent intent = new Intent(MapsActivity.this, ListProfiles.class);
                 startActivity(intent);
                 return true;
         }
@@ -109,8 +127,6 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
     private final int REQUEST_CODE = 0;
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        getLocation(null);
-
         LocationRequest request = locationRequest();
 
         int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
@@ -128,6 +144,9 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
             curLocMarker = mMap.addMarker(new MarkerOptions().position(latlng).title("Current Location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 16.0f));
+        }
+        for(Marker marker:markers){
+            mMap.addMarker(new MarkerOptions().position(marker.getPosition()));
         }
     }
 
@@ -171,21 +190,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
         }
     }
 
-    private void getLocation(View view) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-        Location loc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-        if (loc !=null) {
-            LatLng point = new LatLng(loc.getLatitude(), loc.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(point));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(point));
-        }
-    }
-
-    //Updates map by moving camera and marker to new location and draws line if applicable
+    //Updates map by moving camera and marker to new location
     public void updateMap(Location location){
         if(location != null) {
             if(curLocMarker != null) {
