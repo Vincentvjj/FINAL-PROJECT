@@ -47,6 +47,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.uw.psmith94.geo_profiler.MapsActivity" />
         </activity>
+        <activity android:name=".DetailActivity" android:parentActivityName=".MapsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.uw.psmith94.geo_profiler.MapsActivity" />
+        </activity>
     </application>
 
 </manifest>

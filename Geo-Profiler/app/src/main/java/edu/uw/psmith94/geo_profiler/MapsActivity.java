@@ -93,6 +93,17 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
                 startActivity(intent);
             }
         });
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if(!marker.equals(curLocMarker)){
+                    Intent intent = new Intent(MapsActivity.this, DetailActivity.class);
+                    startActivity(intent);
+                }
+                return true;
+            }
+        });
     }
 
     @Override

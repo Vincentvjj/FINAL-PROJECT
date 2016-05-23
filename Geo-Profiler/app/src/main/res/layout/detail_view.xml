@@ -1,10 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <TextView
+        android:id="@+id/title_text"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:text="Title"
+        android:textSize="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp" />
+
+    <EditText
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:id="@+id/title_edit_text"
+        android:layout_toRightOf="@+id/title_text"
+        android:layout_alignParentRight="true"
+        android:text="Change Profile Name"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:id="@+id/shape_text"
+        android:text="Shape"
+        android:textSize="30dp"
+        android:layout_below="@+id/title_text"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"/>
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This is the detail of the profile clicked"/>
-</LinearLayout>
+        android:text="Rectangle"
+        android:id="@+id/button"
+        android:layout_alignBottom="@+id/shape_text"
+        android:layout_alignLeft="@+id/title_edit_text"
+        android:layout_alignStart="@+id/title_edit_text" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Circle"
+        android:id="@+id/button2"
+        android:layout_alignTop="@+id/button"
+        android:layout_toRightOf="@+id/button"
+        android:layout_toEndOf="@+id/button"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:text="Radius"
+        android:layout_below="@+id/shape_text"
+        android:textSize="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:id="@+id/radius_text" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/radius_edit"
+        android:layout_alignTop="@+id/radius_text"
+        android:layout_alignRight="@+id/button2"
+        android:layout_alignEnd="@+id/button2"
+        android:text="Enter Dimensions"/>
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:text="Time Range"
+        android:layout_below="@+id/radius_text"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:textSize="30dp"
+        android:id="@+id/time_range_text" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:text="Color"
+        android:id="@+id/color_text"
+        android:layout_below="@+id/time_range_text"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:textSize="30dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Color"
+        android:id="@+id/color_picker_button"
+        android:layout_alignTop="@+id/color_text"
+        android:layout_alignLeft="@+id/radius_edit"
+        android:layout_alignStart="@+id/radius_edit"
+        android:layout_marginLeft="27dp"
+        android:layout_marginStart="27dp" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:id="@+id/auto_reply_title"
+        android:text="Message"
+        android:layout_below="@+id/color_text"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="23dp"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/auto_reply_message"
+        android:layout_alignTop="@+id/auto_reply_title"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/auto_reply_title"
+        android:text="Auto-Reply Message Here"/>
+
+
+</RelativeLayout>
