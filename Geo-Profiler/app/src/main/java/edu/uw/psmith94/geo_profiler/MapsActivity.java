@@ -99,8 +99,8 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.menu_list:
-//                Intent intent = new Intent(MapsActivity.this, ListProfiles.class);
-//                startActivity(intent);
+                Intent intent = new Intent(MapsActivity.this, NewProfileActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
