@@ -7,6 +7,7 @@ import android.support.annotation.ColorInt;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -57,7 +58,8 @@ public class NewProfileActivity extends AppCompatActivity {
                         .onColorSelected(new OnColorSelectedListener() {
                             @Override
                             public void onColorSelected(@ColorInt int i) {
-                                //change something here
+                                View box = findViewById(R.id.color_box);
+                                box.setBackgroundColor(i);
                             }
                         })
                         .showColorIndicator(true) // Default false, choose to show text indicator showing the current color in HEX or DEC (see images) or not
@@ -75,26 +77,6 @@ public class NewProfileActivity extends AppCompatActivity {
                 timeFragment.show(getSupportFragmentManager(), "time_picker");
             }
         });
-
-
-        colorPicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new ColorOMaticDialog.Builder()
-                        .colorMode(ColorMode.ARGB) // RGB, ARGB, HVS
-                        .indicatorMode(IndicatorMode.HEX) // HEX or DECIMAL; Note that using HSV with IndicatorMode.HEX is not recommended
-                        .onColorSelected(new OnColorSelectedListener() {
-                            @Override
-                            public void onColorSelected(@ColorInt int i) {
-                                //change something here
-                            }
-                        })
-                        .showColorIndicator(true) // Default false, choose to show text indicator showing the current color in HEX or DEC (see images) or not
-                        .create()
-                        .show(getSupportFragmentManager(), "ColorOMaticDialog");
-            }
-        });
-
 
         super.onCreate(savedInstanceState);
     }

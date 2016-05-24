@@ -82,8 +82,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
@@ -187,7 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/timePickerTo"
-                android:layout_toRightOf="@id/timePickedFrom"/>
+                android:layout_toRightOf="@id/timePickerFrom"/>
 
         </RelativeLayout>
 
@@ -197,7 +196,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
@@ -214,6 +214,11 @@
             android:layout_height="wrap_content"
             android:text="Pick Color"/>
 
+        <View
+            android:id="@+id/color_box"
+            android:layout_width="25dp"
+            android:layout_height="25dp">
+        </View>
 
 
     </LinearLayout>
