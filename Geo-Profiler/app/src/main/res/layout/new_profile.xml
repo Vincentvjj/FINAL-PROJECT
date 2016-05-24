@@ -6,283 +6,302 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Title: "
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="20dp"/>
-
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="The title of the profile"
-                    android:id="@+id/title_edit"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Shape: "
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="20dp"/>
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/circle"
-                    android:scaleType="fitXY"
-                    android:layout_marginTop="20dp"/>
-
-                <Switch
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/shape_switch"
-                    android:layout_marginLeft="30dp"/>
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/square"
-                    android:scaleType="fitXY"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="25dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Radius(m): "
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="20dp"/>
-
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="size of the shape (meters) "
-                    android:inputType="number"
-                    android:id="@+id/radius_edit"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Days: "
-                    android:layout_gravity="center_vertical"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="20dp"/>
-
-                <RelativeLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                    <CheckBox
-                        android:id="@+id/mon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mon"/>
-                    <CheckBox
-                        android:id="@+id/tue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/mon"
-                        android:text="Tue"/>
-                    <CheckBox
-                        android:id="@+id/wed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/tue"
-                        android:text="Wed"/>
-                    <CheckBox
-                        android:id="@+id/thurs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/wed"
-                        android:text="Thurs"/>
-                    <CheckBox
-                        android:id="@+id/fri"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/mon"
-                        android:text="Fri"/>
-                    <CheckBox
-                        android:id="@+id/sat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/fri"
-                        android:layout_below="@id/tue"
-                        android:text="Sat"/>
-                    <CheckBox
-                        android:id="@+id/sun"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/wed"
-                        android:layout_toRightOf="@id/sat"
-                        android:text="Sun"/>
 
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Time: "
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="20dp"/>
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="80dp">
-                    <Button
-                        android:id="@+id/timePickerFrom"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:textSize="10sp"
-                        android:text="From"></Button>
                     <TextView
-                        android:id="@+id/timePickedFrom"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/timePickerFrom"
-                        />
+                        android:text="Title: "
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="20dp"/>
 
-                    <Button
-                        android:id="@+id/timePickerTo"
+
+                    <EditText
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:textSize="10sp"
-                        android:text="to"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginRight="54dp"
-                        android:layout_marginEnd="54dp"></Button>
+                        android:layout_height="wrap_content"
+                        android:hint="The title of the profile"
+                        android:id="@+id/title_edit"/>
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+
+
+                <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
                     <TextView
-                        android:id="@+id/timePickedTo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/timePickerTo"
-                        android:layout_alignLeft="@+id/timePickerTo"/>
+                        android:text="Shape: "
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="20dp"/>
 
-                </RelativeLayout>
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/circle"
+                        android:scaleType="fitXY"
+                        android:layout_marginTop="20dp"/>
+
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/shape_switch"
+                        android:layout_marginLeft="30dp"/>
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/square"
+                        android:scaleType="fitXY"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="25dp"/>
+
+        </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Radius(m): "
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="20dp"/>
 
 
-            </LinearLayout>
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="size of the shape (meters) "
+                        android:inputType="number"
+                        android:id="@+id/radius_edit"/>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                </LinearLayout>
 
-                <TextView
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Color: "
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="20dp"/>
+                    >
 
-                <Button
-                    android:id="@+id/colorPicker"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Days: "
+                        android:layout_gravity="center_vertical"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="20dp"/>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <CheckBox
+                            android:id="@+id/mon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mon"/>
+                        <CheckBox
+                            android:id="@+id/tue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/mon"
+                            android:text="Tue"/>
+                        <CheckBox
+                            android:id="@+id/wed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/tue"
+                            android:text="Wed"/>
+                        <CheckBox
+                            android:id="@+id/thurs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/wed"
+                            android:text="Thurs"/>
+                        <CheckBox
+                            android:id="@+id/fri"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/mon"
+                            android:text="Fri"/>
+                        <CheckBox
+                            android:id="@+id/sat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/fri"
+                            android:layout_below="@id/tue"
+                            android:text="Sat"/>
+                        <CheckBox
+                            android:id="@+id/sun"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/wed"
+                            android:layout_toRightOf="@id/sat"
+                            android:text="Sun"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pick Color"/>
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Time: "
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="20dp"/>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="80dp">
+                        <Button
+                            android:id="@+id/timePickerFrom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:textSize="10sp"
+                            android:text="From"></Button>
+                        <TextView
+                            android:id="@+id/timePickedFrom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/timePickerFrom"
+                            />
+
+                        <Button
+                            android:id="@+id/timePickerTo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:textSize="10sp"
+                            android:text="to"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginRight="54dp"
+                            android:layout_marginEnd="54dp"></Button>
+                        <TextView
+                            android:id="@+id/timePickedTo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/timePickerTo"
+                            android:layout_alignLeft="@+id/timePickerTo"/>
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
 
 
 
-            </LinearLayout>
-
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Auto-reply message: "
+                android:text="Color: "
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:paddingLeft="20dp"
                 android:paddingTop="20dp"/>
 
-
-            <EditText
-                android:inputType="textMultiLine"
-                android:lines="8"
-                android:minLines="2"
-                android:gravity="top|left"
-                android:maxLines="4"
-                android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
-                android:scrollbars="vertical"
-                android:id="@+id/auto_reply_message"
-                />
-
-            <LinearLayout
-                android:layout_marginLeft="10dp"
-                android:paddingRight="10dp"
-                android:orientation="horizontal"
+            <Button
+                android:id="@+id/colorPicker"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:text="Pick Color"/>
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginRight="10dp"
-                    android:text="Cancel"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Save"/>
+            <View
+                android:id="@+id/color_box"
+                android:layout_width="25dp"
+                android:layout_height="25dp">
+            </View>
 
-            </LinearLayout>
 
         </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Auto-reply message: "
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"/>
+
+
+        <EditText
+            android:inputType="textMultiLine"
+            android:lines="8"
+            android:minLines="2"
+            android:gravity="top|left"
+            android:maxLines="4"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:scrollbars="vertical"
+            android:id="@+id/auto_reply_message"/>
+
+        <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:paddingRight="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:text="Cancel"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Save"/>
+
+        </LinearLayout>
+
+
+
+
+
+            </LinearLayout>
     </ScrollView>
 </LinearLayout>

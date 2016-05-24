@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -26,6 +25,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -141,7 +141,9 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
         curLoc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if(curLoc != null) {
             LatLng latlng = new LatLng(curLoc.getLatitude(), curLoc.getLongitude());
-            curLocMarker = mMap.addMarker(new MarkerOptions().position(latlng).title("Current Location"));
+            curLocMarker = mMap.addMarker(new MarkerOptions().position(latlng)
+                    .title("Current Location")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 16.0f));
         }
@@ -198,7 +200,9 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
             }
             curLoc = location;
             LatLng current = new LatLng(location.getLatitude(), location.getLongitude());
-            curLocMarker = mMap.addMarker(new MarkerOptions().position(current).title("Current Location"));
+            curLocMarker = mMap.addMarker(new MarkerOptions().position(current)
+                    .title("Current Location")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 16.0f));
         }else{

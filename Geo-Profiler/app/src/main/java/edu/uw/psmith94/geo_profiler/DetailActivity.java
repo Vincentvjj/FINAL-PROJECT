@@ -2,6 +2,7 @@ package edu.uw.psmith94.geo_profiler;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.v4.app.DialogFragment;
@@ -68,7 +69,8 @@ public class DetailActivity extends AppCompatActivity{
         thuCheck.setChecked(true);
         friCheck.setChecked(true);
         satCheck.setChecked(false);
-
+        View box = findViewById(R.id.color_box);
+        box.setBackgroundColor(Color.YELLOW);
 
 
         timePickerTo.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +91,8 @@ public class DetailActivity extends AppCompatActivity{
                         .onColorSelected(new OnColorSelectedListener() {
                             @Override
                             public void onColorSelected(@ColorInt int i) {
-                                //change something here
+                                View box = findViewById(R.id.color_box);
+                                box.setBackgroundColor(i);
                             }
                         })
                         .showColorIndicator(true) // Default false, choose to show text indicator showing the current color in HEX or DEC (see images) or not
