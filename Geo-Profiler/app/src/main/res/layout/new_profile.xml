@@ -122,23 +122,23 @@
                         android:layout_height="wrap_content"
                         android:text="Mon"/>
                     <CheckBox
-                        android:id="@+id/tue"
+                        android:id="@+id/tues"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/mon"
-                        android:text="Tue"/>
+                        android:text="Tues"/>
                     <CheckBox
                         android:id="@+id/wed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/tue"
+                        android:layout_toRightOf="@id/tues"
                         android:text="Wed"/>
                     <CheckBox
-                        android:id="@+id/thurs"
+                        android:id="@+id/thur"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/wed"
-                        android:text="Thurs"/>
+                        android:text="Thur"/>
                     <CheckBox
                         android:id="@+id/fri"
                         android:layout_width="wrap_content"
@@ -150,7 +150,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/fri"
-                        android:layout_below="@id/tue"
+                        android:layout_below="@id/tues"
                         android:text="Sat"/>
                     <CheckBox
                         android:id="@+id/sun"
@@ -239,7 +239,8 @@
                 <View
                     android:id="@+id/color_box"
                     android:layout_width="25dp"
-                    android:layout_height="25dp"/>
+                    android:layout_height="25dp"
+                    android:background="@color/mat_red"/>
             </LinearLayout>
 
             <TextView

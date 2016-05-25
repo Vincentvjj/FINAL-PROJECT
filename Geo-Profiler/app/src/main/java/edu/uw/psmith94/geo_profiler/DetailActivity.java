@@ -49,9 +49,9 @@ public class DetailActivity extends AppCompatActivity{
         EditText titleEdit = (EditText)findViewById(R.id.title_edit);
         CheckBox sunCheck = (CheckBox)findViewById(R.id.sun);
         CheckBox monCheck = (CheckBox)findViewById(R.id.mon);
-        CheckBox tueCheck = (CheckBox)findViewById(R.id.tue);
+        CheckBox tuesCheck = (CheckBox)findViewById(R.id.tues);
         CheckBox wedCheck = (CheckBox)findViewById(R.id.wed);
-        CheckBox thuCheck = (CheckBox)findViewById(R.id.thurs);
+        CheckBox thurCheck = (CheckBox)findViewById(R.id.thur);
         CheckBox friCheck = (CheckBox)findViewById(R.id.fri);
         CheckBox satCheck = (CheckBox)findViewById(R.id.sat);
         EditText radiusEdit = (EditText)findViewById(R.id.radius_edit);
@@ -64,9 +64,9 @@ public class DetailActivity extends AppCompatActivity{
         autoReply.setText(autoReplyMssg, TextView.BufferType.EDITABLE);
         sunCheck.setChecked(false);
         monCheck.setChecked(true);
-        tueCheck.setChecked(true);
+        tuesCheck.setChecked(true);
         wedCheck.setChecked(true);
-        thuCheck.setChecked(true);
+        thurCheck.setChecked(true);
         friCheck.setChecked(true);
         satCheck.setChecked(false);
         View box = findViewById(R.id.color_box);

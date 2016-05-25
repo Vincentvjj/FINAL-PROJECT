@@ -62,7 +62,6 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
                     .addApi(LocationServices.API)
                     .build();
         }
-
     }
 
     @Override
@@ -82,14 +81,28 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            if (extras.getBoolean("saved")){
+                Bundle bundle = getIntent().getParcelableExtra("edu.uw.psmith94.bundle");
+                LatLng latlng = bundle.getParcelable("latlng");
+                Marker marker = mMap.addMarker(new MarkerOptions().position(latlng));
+                marker.setPosition(latlng);
+                markers.add(marker);
+            }
+        }
+
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
                 Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
                 marker.setPosition(latLng);
-                markers.add(marker);
+//                markers.add(marker);
+                Bundle args = new Bundle();
+                args.putParcelable("latlng", latLng);
                 Intent intent = new Intent(MapsActivity.this, NewProfileActivity.class);
-                intent.putExtra("edu.uw.psmith94.latlng", latLng);
+                intent.putExtra("edu.uw.psmith94.bundle", args);
                 startActivity(intent);
             }
         });

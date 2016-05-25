@@ -53,6 +53,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.uw.psmith94.geo_profiler.MapsActivity" />
         </activity>
+        <provider android:name="edu.uw.profile.provider.ProfileProvider" android:authorities="edu.uw.profile.provider"/>
     </application>
 
 </manifest>
