@@ -28,6 +28,7 @@ public class NewProfileActivity extends AppCompatActivity {
     private static TextView timeTxtTo;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.new_profile);
@@ -35,6 +36,8 @@ public class NewProfileActivity extends AppCompatActivity {
         Button timePickerFrom = (Button)findViewById(R.id.timePickerFrom);
         Button timePickerTo = (Button)findViewById(R.id.timePickerTo);
         Button colorPicker = (Button)findViewById(R.id.colorPicker);
+        Button saveBtn = (Button)findViewById(R.id.saveBtn);
+        Button cancelBtn = (Button)findViewById(R.id.cancelBtn);
         timeTxtFrom = (TextView)findViewById(R.id.timePickedFrom);
         timeTxtTo = (TextView)findViewById(R.id.timePickedTo);
 
@@ -46,7 +49,6 @@ public class NewProfileActivity extends AppCompatActivity {
                 timeFragment.show(getSupportFragmentManager(), "time_picker");
             }
         });
-
 
         colorPicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,13 +69,25 @@ public class NewProfileActivity extends AppCompatActivity {
             }
         });
 
-
-
         timePickerFrom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment timeFragment = new TimePickerFragmentFrom();
                 timeFragment.show(getSupportFragmentManager(), "time_picker");
+            }
+        });
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
             }
         });
 
@@ -121,7 +135,6 @@ public class NewProfileActivity extends AppCompatActivity {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
 
             timeTxtTo.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
         }
