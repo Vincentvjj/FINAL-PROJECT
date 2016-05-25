@@ -38,7 +38,6 @@ public class NewProfileActivity extends AppCompatActivity {
         timeTxtFrom = (TextView)findViewById(R.id.timePickedFrom);
         timeTxtTo = (TextView)findViewById(R.id.timePickedTo);
 
-
         timePickerTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,7 +45,6 @@ public class NewProfileActivity extends AppCompatActivity {
                 timeFragment.show(getSupportFragmentManager(), "time_picker");
             }
         });
-
 
         colorPicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,8 +64,6 @@ public class NewProfileActivity extends AppCompatActivity {
                         .show(getSupportFragmentManager(), "ColorOMaticDialog");
             }
         });
-
-
 
         timePickerFrom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,8 +94,6 @@ public class NewProfileActivity extends AppCompatActivity {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-
             timeTxtFrom.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
         }
     }
@@ -121,8 +115,6 @@ public class NewProfileActivity extends AppCompatActivity {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-
             timeTxtTo.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
         }
     }
