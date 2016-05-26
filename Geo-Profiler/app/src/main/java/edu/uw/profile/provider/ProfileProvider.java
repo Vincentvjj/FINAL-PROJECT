@@ -42,6 +42,8 @@ public class ProfileProvider extends ContentProvider{
         private ProfileEntry(){}
 
         public static final String TABLE_NAME = "profiles";
+        public static final String COL_LAT = "lat";
+        public static final String COL_LNG = "lng";
         public static final String COL_TITLE = "title";
         public static final String COL_SHAPE = "shape";
         public static final String COL_RADIUS = "radius";
@@ -85,9 +87,11 @@ public class ProfileProvider extends ContentProvider{
                 "CREATE TABLE " + ProfileEntry.TABLE_NAME + "(" +
                         ProfileEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + ", "+
                         ProfileEntry.COL_TIME_CREATED + " INTEGER" + ","+
-                        ProfileEntry.COL_TITLE+ " TEXT" + ","+
+                        ProfileEntry.COL_LAT + " DOUBLE" + ","+
+                        ProfileEntry.COL_LNG + " DOUBLE" + ","+
+                        ProfileEntry.COL_TITLE + " TEXT" + ","+
                         ProfileEntry.COL_SHAPE + " INTEGER" + "," +
-                        ProfileEntry.COL_RADIUS + " INTEGER" + ","+
+                        ProfileEntry.COL_RADIUS + " DOUBLE" + ","+
                         ProfileEntry.COL_MON + " INTEGER" + ","+
                         ProfileEntry.COL_TUES + " INTEGER" + ","+
                         ProfileEntry.COL_WED + " INTEGER" + ","+
@@ -174,7 +178,7 @@ public class ProfileProvider extends ContentProvider{
         }
 
         if(!values.containsKey(ProfileEntry.COL_SHAPE)){
-            values.put(ProfileEntry.COL_SHAPE, 0);
+            values.put(ProfileEntry.COL_SHAPE, 100.0);
         }
 
         if(!values.containsKey(ProfileEntry.COL_RADIUS)){
@@ -208,10 +212,6 @@ public class ProfileProvider extends ContentProvider{
         }
         if(!values.containsKey(ProfileEntry.COL_TIME_END)){
             values.put(ProfileEntry.COL_TIME_END, System.currentTimeMillis());
-        }
-
-        if(!values.containsKey(ProfileEntry.COL_COLOR)){
-            values.put(ProfileEntry.COL_COLOR, (int) (Math.random() * -16777216));
         }
 
         if(!values.containsKey(ProfileEntry.COL_MESSAGE)){

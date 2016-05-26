@@ -3,18 +3,24 @@ package edu.uw.psmith94.geo_profiler;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -26,21 +32,26 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 
+import edu.uw.profile.provider.Profile;
+import edu.uw.profile.provider.ProfileProvider;
+
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
-GoogleApiClient.OnConnectionFailedListener, LocationListener{
+GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final String TAG = "MAP";
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
     private Location curLoc;
     private Marker curLocMarker;
-    private static ArrayList<Marker> markers = new ArrayList<Marker>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +73,8 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
                     .addApi(LocationServices.API)
                     .build();
         }
+
+        getSupportLoaderManager().initLoader(0, null, this);
     }
 
     @Override
@@ -81,24 +94,11 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null){
-            if (extras.getBoolean("saved")){
-                Bundle bundle = getIntent().getParcelableExtra("edu.uw.psmith94.bundle");
-                LatLng latlng = bundle.getParcelable("latlng");
-                Marker marker = mMap.addMarker(new MarkerOptions().position(latlng));
-                marker.setPosition(latlng);
-                markers.add(marker);
-            }
-        }
-
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
                 Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
                 marker.setPosition(latLng);
-//                markers.add(marker);
                 Bundle args = new Bundle();
                 args.putParcelable("latlng", latLng);
                 Intent intent = new Intent(MapsActivity.this, NewProfileActivity.class);
@@ -112,11 +112,47 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
             public boolean onMarkerClick(Marker marker) {
                 if(!marker.equals(curLocMarker)){
                     Intent intent = new Intent(MapsActivity.this, DetailActivity.class);
+                    double lat = marker.getPosition().latitude;
+                    double lng = marker.getPosition().longitude;
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble("lat", lat);
+                    bundle.putDouble("lng", lng);
+                    intent.putExtras(bundle);
                     startActivity(intent);
                 }
                 return true;
             }
         });
+        String[] projection = new String[] {Profile.LAT, Profile.LNG, Profile.SHAPE,
+                Profile.RADIUS, Profile.COLOR};
+        Cursor cur = getContentResolver().query(ProfileProvider.CONTENT_URI, projection,
+                null, null, null);
+        while(cur.moveToNext()){
+            double lat = cur.getDouble(cur.getColumnIndex("lat"));
+            double lng = cur.getDouble(cur.getColumnIndex("lng"));
+            LatLng latlng = new LatLng(lat, lng);
+            int shape = cur.getInt(cur.getColumnIndex("shape"));
+            double radius = cur.getDouble(cur.getColumnIndex("radius"));
+            int color = cur.getInt(cur.getColumnIndex("color"));
+            mMap.addMarker(new MarkerOptions().position(latlng));
+            if(shape == 0){
+                mMap.addCircle(new CircleOptions()
+                        .center(latlng)
+                        .radius(radius)
+                        .fillColor((color & 0x00FFFFFF) | 0x40000000)
+                        .strokeColor(color));
+            } else{
+                radius = radius / 111111;
+                mMap.addPolygon(new PolygonOptions()
+                        .add(new LatLng(lat - (radius / 2), lng - (radius / 2)), new LatLng(lat + (radius / 2), lng - (radius / 2)))
+                        .add(new LatLng(lat + (radius / 2), lng - (radius / 2)), new LatLng(lat + (radius / 2), lng + (radius / 2)))
+                        .add(new LatLng(lat + (radius / 2), lng + (radius / 2)), new LatLng(lat - (radius / 2), lng + (radius / 2)))
+                        .add(new LatLng(lat - (radius / 2), lng + (radius / 2)), new LatLng(lat - (radius / 2), lng - (radius / 2)))
+                        .fillColor((color & 0x00FFFFFF) | 0x40000000)
+                        .strokeColor(color));
+            }
+        }
+        cur.close();
     }
 
     @Override
@@ -159,9 +195,6 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 16.0f));
-        }
-        for(Marker marker:markers){
-            mMap.addMarker(new MarkerOptions().position(marker.getPosition()));
         }
     }
 
@@ -230,5 +263,22 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener{
         request.setInterval(10000);
         request.setFastestInterval(5000);
         return request;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String[] projection = new String[] {Profile.LAT, Profile.LNG, Profile.SHAPE,
+                Profile.RADIUS, Profile.COLOR};
+        CursorLoader loader = new CursorLoader(MapsActivity.this, ProfileProvider.CONTENT_URI,
+                projection, null, null, null);
+        return loader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
     }
 }

@@ -2,10 +2,14 @@ package edu.uw.psmith94.geo_profiler;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -15,8 +19,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
+import edu.uw.profile.provider.Profile;
+import edu.uw.profile.provider.ProfileProvider;
 import es.dmoral.coloromatic.ColorOMaticDialog;
 import es.dmoral.coloromatic.IndicatorMode;
 import es.dmoral.coloromatic.OnColorSelectedListener;
@@ -25,7 +34,7 @@ import es.dmoral.coloromatic.colormode.ColorMode;
 /**
  * Created by vincentjoe on 5/21/16.
  */
-public class DetailActivity extends AppCompatActivity{
+public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     private static TextView timeTxtFrom;
     private static TextView timeTxtTo;
 
@@ -40,6 +49,15 @@ public class DetailActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.new_profile);
+
+        Bundle bundle = getIntent().getExtras();
+        double lat = bundle.getDouble("lat");
+        double lng = bundle.getDouble("lng");
+
+        getSupportLoaderManager().initLoader(0, null, this);
+
+        String[] projection = new String[] {Profile.LAT, Profile.LNG, Profile.SHAPE,
+                Profile.RADIUS, Profile.COLOR};
 
         Button timePickerFrom = (Button)findViewById(R.id.timePickerFrom);
         Button timePickerTo = (Button)findViewById(R.id.timePickerTo);
@@ -134,6 +152,27 @@ public class DetailActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String[] projection = new String[] {Profile.TITLE, Profile.SHAPE,
+                Profile.RADIUS, Profile.MON, Profile.TUES, Profile.WED, Profile.THUR, Profile.FRI,
+                Profile.SAT, Profile.SUN, Profile.TIME_START, Profile.TIME_END, Profile.COLOR,
+                Profile.MESSAGE};
+        CursorLoader loader = new CursorLoader(DetailActivity.this, ProfileProvider.CONTENT_URI,
+                projection, null, null, null);
+        return loader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
 
     public static class TimePickerFragmentFrom extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
@@ -152,9 +191,9 @@ public class DetailActivity extends AppCompatActivity{
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-
-            timeTxtFrom.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa", Locale.US);
+            Date date = new Date(0, 0, 0, hourOfDay, minute);
+            timeTxtFrom.setText(sdf.format(date));
         }
     }
 
@@ -175,9 +214,9 @@ public class DetailActivity extends AppCompatActivity{
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-
-            timeTxtTo.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa", Locale.US);
+            Date date = new Date(0, 0, 0, hourOfDay, minute);
+            timeTxtTo.setText(sdf.format(date));
         }
     }
 }

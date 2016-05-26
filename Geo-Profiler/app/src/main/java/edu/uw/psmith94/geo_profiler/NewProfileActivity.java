@@ -11,6 +11,7 @@ import android.support.annotation.ColorInt;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,7 +22,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import edu.uw.profile.provider.Profile;
 import edu.uw.profile.provider.ProfileProvider;
@@ -35,10 +39,9 @@ import es.dmoral.coloromatic.colormode.ColorMode;
  */
 public class NewProfileActivity extends AppCompatActivity {
 
+    private static final String TAG = "NEWPROFILE";
     private static TextView timeTxtFrom;
     private static TextView timeTxtTo;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,7 @@ public class NewProfileActivity extends AppCompatActivity {
         timeTxtTo = (TextView)findViewById(R.id.timePickedTo);
 
         final View color = findViewById(R.id.color_box);
+        color.setBackgroundColor((int) (Math.random() * -16777216));
         final TextView message = (TextView) findViewById(R.id.auto_reply_message);
 
         timePickerTo.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +117,12 @@ public class NewProfileActivity extends AppCompatActivity {
             }
             @Override
             public void onClick(View v) {
+                Bundle bundle = getIntent().getParcelableExtra("edu.uw.psmith94.bundle");
+                LatLng latlng = bundle.getParcelable("latlng");
+
                 ContentValues mNewValues = new ContentValues();
+                mNewValues.put(ProfileProvider.ProfileEntry.COL_LAT, latlng.latitude);
+                mNewValues.put(ProfileProvider.ProfileEntry.COL_LNG, latlng.longitude);
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_TITLE, title.getText().toString());
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_SHAPE, toInt(shape.isChecked()));
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_RADIUS, radius.getText().toString());
@@ -125,10 +134,8 @@ public class NewProfileActivity extends AppCompatActivity {
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_SAT, toInt(sat.isChecked()));
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_SUN, toInt(sun.isChecked()));
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_TIME_START, timeTxtFrom.getText().toString());
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_TIME_END, timePickerTo.getText().toString());
-                if (((ColorDrawable)color.getBackground()) != null){
-                    mNewValues.put(ProfileProvider.ProfileEntry.COL_COLOR, ((ColorDrawable)color.getBackground()).getColor());
-                }
+                mNewValues.put(ProfileProvider.ProfileEntry.COL_TIME_END, timeTxtTo.getText().toString());
+                mNewValues.put(ProfileProvider.ProfileEntry.COL_COLOR, ((ColorDrawable)color.getBackground()).getColor());
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_MESSAGE, message.getText().toString());
 
                 Uri mNewUri = getContentResolver().insert(
@@ -137,16 +144,8 @@ public class NewProfileActivity extends AppCompatActivity {
                 );
                 Toast.makeText(NewProfileActivity.this, "Saved!", Toast.LENGTH_LONG).show();
 
-                Bundle bundle = getIntent().getParcelableExtra("edu.uw.psmith94.bundle");
-                LatLng latlng = bundle.getParcelable("latlng");
-
-                Bundle args = new Bundle();
-                args.putParcelable("latlng", latlng);
-
                 Intent intent = new Intent(NewProfileActivity.this, MapsActivity.class);
                 intent.putExtra("edu.uw.psmith94.saved", true);
-                intent.putExtra("edu.uw.psmith94.bundle", args);
-
                 startActivity(intent);
             }
         });
@@ -181,7 +180,9 @@ public class NewProfileActivity extends AppCompatActivity {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            timeTxtFrom.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa", Locale.US);
+            Date date = new Date(0, 0, 0, hourOfDay, minute);
+            timeTxtFrom.setText(sdf.format(date));
         }
     }
 
@@ -202,7 +203,9 @@ public class NewProfileActivity extends AppCompatActivity {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            timeTxtTo.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa", Locale.US);
+            Date date = new Date(0, 0, 0, hourOfDay, minute);
+            timeTxtTo.setText(sdf.format(date));
         }
     }
 }

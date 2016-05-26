@@ -5,6 +5,8 @@ package edu.uw.profile.provider;
  */
 public class Profile {
     public static final String ID = ProfileProvider.ProfileEntry._ID;
+    public static final String LAT = ProfileProvider.ProfileEntry.COL_LAT;
+    public static final String LNG = ProfileProvider.ProfileEntry.COL_LNG;
     public static final String TITLE = ProfileProvider.ProfileEntry.COL_TITLE;
     public static final String SHAPE = ProfileProvider.ProfileEntry.COL_SHAPE;
     public static final String RADIUS = ProfileProvider.ProfileEntry.COL_RADIUS;
