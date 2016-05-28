@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title: "
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"/>
+
+                <EditText
+                    android:id="@+id/edit_title_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="The title of the profile"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Shape: "
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"/>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/circle"
+                    android:scaleType="fitXY"
+                    android:layout_marginTop="20dp"/>
+
+                <Switch
+                    android:id="@+id/shape_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"/>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/square"
+                    android:scaleType="fitXY"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="25dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Radius(m): "
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"/>
+
+
+                <EditText
+                    android:id="@+id/edit_radius_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="size of the shape (meters) "
+                    android:inputType="number"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Days: "
+                    android:layout_gravity="center_vertical"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"/>
+
+                <RelativeLayout
+                    android:id="@+id/date_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <CheckBox
+                        android:id="@+id/edit_mon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mon"/>
+                    <CheckBox
+                        android:id="@+id/edit_tues"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/edit_mon"
+                        android:text="Tues"/>
+                    <CheckBox
+                        android:id="@+id/edit_wed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/edit_tues"
+                        android:text="Wed"/>
+                    <CheckBox
+                        android:id="@+id/edit_thur"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/edit_wed"
+                        android:text="Thur"/>
+                    <CheckBox
+                        android:id="@+id/edit_fri"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/edit_mon"
+                        android:text="Fri"/>
+                    <CheckBox
+                        android:id="@+id/edit_sat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/edit_fri"
+                        android:layout_below="@id/edit_tues"
+                        android:text="Sat"/>
+                    <CheckBox
+                        android:id="@+id/edit_sun"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/edit_wed"
+                        android:layout_toRightOf="@id/edit_sat"
+                        android:text="Sun"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time: "
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp">
+                    <Button
+                        android:id="@+id/edit_timePickerFrom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:textSize="10sp"
+                        android:text="From"></Button>
+                    <TextView
+                        android:id="@+id/edit_timePickedFrom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/edit_timePickerFrom"
+                        />
+
+                    <Button
+                        android:id="@+id/edit_timePickerTo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:textSize="10sp"
+                        android:text="to"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="54dp"
+                        android:layout_marginEnd="54dp"></Button>
+                    <TextView
+                        android:id="@+id/edit_timePickedTo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/edit_timePickerTo"
+                        android:layout_alignLeft="@+id/edit_timePickerTo"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Color: "
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"/>
+
+                <Button
+                    android:id="@+id/colorPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pick Color"/>
+
+                <View
+                    android:id="@+id/edit_color_box"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@color/mat_red"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Auto-reply message: "
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp"/>
+
+            <EditText
+                android:id="@+id/edit_auto_reply_message"
+                android:inputType="textMultiLine"
+                android:lines="8"
+                android:minLines="2"
+                android:gravity="top|left"
+                android:maxLines="4"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:scrollbars="vertical"
+                />
+
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:paddingRight="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/cancelBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:text="Cancel"/>
+                <Button
+                    android:id="@+id/saveBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Save"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/mat_red"
+                    android:text="Delete"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -50,7 +50,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
     private static final String TAG = "MAP";
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
-    private Location curLoc;
+    public Location curLoc;
     private Marker curLocMarker;
 
     @Override
