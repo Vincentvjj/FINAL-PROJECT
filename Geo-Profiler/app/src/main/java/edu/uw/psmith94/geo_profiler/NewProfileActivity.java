@@ -135,7 +135,7 @@ public class NewProfileActivity extends AppCompatActivity {
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_SUN, toInt(sun.isChecked()));
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_TIME_START, timeTxtFrom.getText().toString());
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_TIME_END, timeTxtTo.getText().toString());
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_COLOR, ((ColorDrawable)color.getBackground()).getColor());
+                mNewValues.put(ProfileProvider.ProfileEntry.COL_COLOR, ((ColorDrawable) color.getBackground()).getColor());
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_MESSAGE, message.getText().toString());
 
                 Uri mNewUri = getContentResolver().insert(
@@ -146,6 +146,7 @@ public class NewProfileActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(NewProfileActivity.this, MapsActivity.class);
                 intent.putExtra("edu.uw.psmith94.saved", true);
+                intent.putExtra("coordinates", latlng);
                 startActivity(intent);
             }
         });
@@ -153,8 +154,11 @@ public class NewProfileActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle = getIntent().getParcelableExtra("edu.uw.psmith94.bundle");
+                LatLng latlng = bundle.getParcelable("latlng");
                 Intent intent = new Intent(NewProfileActivity.this, MapsActivity.class);
                 intent.putExtra("edu.uw.psmith94.saved", false);
+                intent.putExtra("coordinates", latlng);
                 startActivity(intent);
             }
         });

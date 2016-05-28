@@ -52,6 +52,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
     GoogleApiClient mGoogleApiClient;
     public Location curLoc;
     private Marker curLocMarker;
+    private LatLng currentPoints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,10 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
         mapFragment.getMapAsync(this);
         getSupportActionBar();
 
+
+        if(getIntent().getParcelableExtra("coordinates") != null) {
+            currentPoints = getIntent().getParcelableExtra("coordinates");
+        }
 
         if(mGoogleApiClient == null) {
             mGoogleApiClient =
@@ -187,15 +192,26 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_CODE);
         }
-        curLoc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if(curLoc != null) {
-            LatLng latlng = new LatLng(curLoc.getLatitude(), curLoc.getLongitude());
-            curLocMarker = mMap.addMarker(new MarkerOptions().position(latlng)
+
+        if(currentPoints == null) {
+            if(curLoc == null) {
+                curLoc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            } else {
+                LatLng latlng = new LatLng(curLoc.getLatitude(), curLoc.getLongitude());
+                curLocMarker = mMap.addMarker(new MarkerOptions().position(latlng)
+                        .title("Current Location")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 16.0f));
+            }
+        } else {
+            curLocMarker = mMap.addMarker(new MarkerOptions().position(currentPoints)
                     .title("Current Location")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 16.0f));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(currentPoints));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPoints, 16.0f));
         }
+
     }
 
     @Override
