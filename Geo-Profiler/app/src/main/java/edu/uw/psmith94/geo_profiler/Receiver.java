@@ -40,7 +40,6 @@ public class Receiver extends BroadcastReceiver {
             Log.v(TAG, "received");
             {
                 SmsMessage message = Telephony.Sms.Intents.getMessagesFromIntent(intent)[0];
-
             }
             try {
                 Object[] pdus = (Object[]) bundle.get("pdus");
@@ -86,7 +85,7 @@ public class Receiver extends BroadcastReceiver {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setContentTitle(num)
-                .setSmallIcon(R.drawable.ic_notification)
+//                .setSmallIcon(R.drawable.ic_notification)
                 .setContentText(body);
 
         builder.setPriority(NotificationCompat.PRIORITY_HIGH);

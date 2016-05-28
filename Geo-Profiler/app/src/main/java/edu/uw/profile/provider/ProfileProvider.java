@@ -99,8 +99,8 @@ public class ProfileProvider extends ContentProvider{
                         ProfileEntry.COL_FRI + " INTEGER" + ","+
                         ProfileEntry.COL_SAT + " INTEGER" + ","+
                         ProfileEntry.COL_SUN + " INTEGER" + ","+
-                        ProfileEntry.COL_TIME_START + " INTEGER" + ","+
-                        ProfileEntry.COL_TIME_END + " INTEGER" + ","+
+                        ProfileEntry.COL_TIME_START + " STRING" + ","+
+                        ProfileEntry.COL_TIME_END + " STRING" + ","+
                         ProfileEntry.COL_COLOR + " INTEGER" + ","+
                         ProfileEntry.COL_MESSAGE + " TEXT" + ","+
                         ProfileEntry.COL_ACTIVE + " INTEGER" +
