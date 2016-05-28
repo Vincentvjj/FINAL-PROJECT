@@ -16,9 +16,6 @@
         android:text="The title of the profile here"
         android:id="@+id/list_title_profile"/>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
@@ -26,5 +23,5 @@
             android:text="Edit"
             android:id="@+id/edit_button"
             android:layout_marginLeft="50dp" />
-    </RelativeLayout>
+
 </LinearLayout>
