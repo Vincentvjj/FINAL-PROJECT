@@ -28,7 +28,6 @@
                     android:id="@+id/edit_title_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="The title of the profile"
                     />
 
             </LinearLayout>
