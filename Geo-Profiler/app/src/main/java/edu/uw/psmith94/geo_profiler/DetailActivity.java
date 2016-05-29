@@ -6,7 +6,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,12 +29,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import edu.uw.profile.provider.Profile;
 import edu.uw.profile.provider.ProfileProvider;
@@ -67,8 +63,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         getSupportLoaderManager().initLoader(0, null, this);
 
         String[] projection = new String[] {Profile.ID, Profile.LAT, Profile.LNG, Profile.TITLE,
-                Profile.SHAPE, Profile.RADIUS, Profile.MON, Profile.TUES, Profile.WED,
-                Profile.THUR, Profile.FRI, Profile.SAT, Profile.SUN,
+                Profile.SHAPE, Profile.RADIUS, Profile.MON, Profile.TUE, Profile.WED,
+                Profile.THU, Profile.FRI, Profile.SAT, Profile.SUN,
                 Profile.TIME_START, Profile.TIME_END, Profile.COLOR, Profile.MESSAGE};
         Cursor cur = getContentResolver().query(ProfileProvider.CONTENT_URI, projection,
                 null, null, null);
@@ -88,9 +84,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         final EditText titleEdit = (EditText)findViewById(R.id.title_edit);
         final CheckBox sunCheck = (CheckBox)findViewById(R.id.sun);
         final CheckBox monCheck = (CheckBox)findViewById(R.id.mon);
-        final CheckBox tuesCheck = (CheckBox)findViewById(R.id.tues);
+        final CheckBox tueCheck = (CheckBox)findViewById(R.id.tue);
         final CheckBox wedCheck = (CheckBox)findViewById(R.id.wed);
-        final CheckBox thurCheck = (CheckBox)findViewById(R.id.thur);
+        final CheckBox thuCheck = (CheckBox)findViewById(R.id.thu);
         final CheckBox friCheck = (CheckBox)findViewById(R.id.fri);
         final CheckBox satCheck = (CheckBox)findViewById(R.id.sat);
         final Switch shapeSwitch = (Switch)findViewById(R.id.shape_switch);
@@ -104,9 +100,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         autoReply.setText(cur.getString(cur.getColumnIndex("message")), TextView.BufferType.EDITABLE);
         sunCheck.setChecked(toBool(cur.getInt(cur.getColumnIndex("sun"))));
         monCheck.setChecked(toBool(cur.getInt(cur.getColumnIndex("mon"))));
-        tuesCheck.setChecked(toBool(cur.getInt(cur.getColumnIndex("tues"))));
+        tueCheck.setChecked(toBool(cur.getInt(cur.getColumnIndex("tue"))));
         wedCheck.setChecked(toBool(cur.getInt(cur.getColumnIndex("wed"))));
-        thurCheck.setChecked(toBool(cur.getInt(cur.getColumnIndex("thur"))));
+        thuCheck.setChecked(toBool(cur.getInt(cur.getColumnIndex("thu"))));
         friCheck.setChecked(toBool(cur.getInt(cur.getColumnIndex("fri"))));
         satCheck.setChecked(toBool(cur.getInt(cur.getColumnIndex("sat"))));
         shapeSwitch.setChecked(toBool(cur.getInt(cur.getColumnIndex("shape"))));
@@ -185,9 +181,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_SHAPE, toInt(shapeSwitch.isChecked()));
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_RADIUS, radiusEdit.getText().toString());
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_MON, toInt(monCheck.isChecked()));
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_TUES, toInt(tuesCheck.isChecked()));
+                mNewValues.put(ProfileProvider.ProfileEntry.COL_TUE, toInt(tueCheck.isChecked()));
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_WED, toInt(wedCheck.isChecked()));
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_THUR, toInt(thurCheck.isChecked()));
+                mNewValues.put(ProfileProvider.ProfileEntry.COL_THU, toInt(thuCheck.isChecked()));
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_FRI, toInt(friCheck.isChecked()));
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_SAT, toInt(satCheck.isChecked()));
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_SUN, toInt(sunCheck.isChecked()));
@@ -244,7 +240,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = new String[] {Profile.TITLE, Profile.SHAPE,
-                Profile.RADIUS, Profile.MON, Profile.TUES, Profile.WED, Profile.THUR, Profile.FRI,
+                Profile.RADIUS, Profile.MON, Profile.TUE, Profile.WED, Profile.THU, Profile.FRI,
                 Profile.SAT, Profile.SUN, Profile.TIME_START, Profile.TIME_END, Profile.COLOR,
                 Profile.MESSAGE};
         CursorLoader loader = new CursorLoader(DetailActivity.this, ProfileProvider.CONTENT_URI,
@@ -287,7 +283,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa", Locale.US);
+            SimpleDateFormat sdf = new SimpleDateFormat("kk:mm");
             Date date = new Date(0, 0, 0, hourOfDay, minute);
             timeTxtFrom.setText(sdf.format(date));
         }
@@ -310,7 +306,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa", Locale.US);
+            SimpleDateFormat sdf = new SimpleDateFormat("kk:mm");
             Date date = new Date(0, 0, 0, hourOfDay, minute);
             timeTxtTo.setText(sdf.format(date));
         }

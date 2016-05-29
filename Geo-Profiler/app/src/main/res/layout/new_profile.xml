@@ -120,45 +120,52 @@
                         android:id="@+id/mon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mon"/>
+                        android:text="Mon"
+                        android:checked="true"/>
                     <CheckBox
-                        android:id="@+id/tues"
+                        android:id="@+id/tue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/mon"
-                        android:text="Tues"/>
+                        android:text="Tue"
+                        android:checked="true"/>
                     <CheckBox
                         android:id="@+id/wed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/tues"
-                        android:text="Wed"/>
+                        android:layout_toRightOf="@id/tue"
+                        android:text="Wed"
+                        android:checked="true"/>
                     <CheckBox
-                        android:id="@+id/thur"
+                        android:id="@+id/thu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/wed"
-                        android:text="Thur"/>
+                        android:text="Thu"
+                        android:checked="true"/>
                     <CheckBox
                         android:id="@+id/fri"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/mon"
-                        android:text="Fri"/>
+                        android:text="Fri"
+                        android:checked="true"/>
                     <CheckBox
                         android:id="@+id/sat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/fri"
-                        android:layout_below="@id/tues"
-                        android:text="Sat"/>
+                        android:layout_below="@id/tue"
+                        android:text="Sat"
+                        android:checked="true"/>
                     <CheckBox
                         android:id="@+id/sun"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/wed"
                         android:layout_toRightOf="@id/sat"
-                        android:text="Sun"/>
+                        android:text="Sun"
+                        android:checked="true"/>
 
                 </RelativeLayout>
 

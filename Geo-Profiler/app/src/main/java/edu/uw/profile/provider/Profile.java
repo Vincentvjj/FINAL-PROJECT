@@ -11,9 +11,9 @@ public class Profile {
     public static final String SHAPE = ProfileProvider.ProfileEntry.COL_SHAPE;
     public static final String RADIUS = ProfileProvider.ProfileEntry.COL_RADIUS;
     public static final String MON = ProfileProvider.ProfileEntry.COL_MON;
-    public static final String TUES = ProfileProvider.ProfileEntry.COL_TUES;
+    public static final String TUE = ProfileProvider.ProfileEntry.COL_TUE;
     public static final String WED = ProfileProvider.ProfileEntry.COL_WED;
-    public static final String THUR = ProfileProvider.ProfileEntry.COL_THUR;
+    public static final String THU = ProfileProvider.ProfileEntry.COL_THU;
     public static final String FRI = ProfileProvider.ProfileEntry.COL_FRI;
     public static final String SAT = ProfileProvider.ProfileEntry.COL_SAT;
     public static final String SUN = ProfileProvider.ProfileEntry.COL_SUN;
