@@ -25,9 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
-import edu.uw.profile.provider.Profile;
 import edu.uw.profile.provider.ProfileProvider;
 import es.dmoral.coloromatic.ColorOMaticDialog;
 import es.dmoral.coloromatic.IndicatorMode;
@@ -57,9 +55,9 @@ public class NewProfileActivity extends AppCompatActivity {
         final Switch shape = (Switch) findViewById(R.id.shape_switch);
         final TextView radius = (TextView) findViewById(R.id.radius_edit);
         final CheckBox mon = (CheckBox) findViewById(R.id.mon);
-        final CheckBox tues = (CheckBox) findViewById(R.id.tues);
+        final CheckBox tue = (CheckBox) findViewById(R.id.tue);
         final CheckBox wed = (CheckBox) findViewById(R.id.wed);
-        final CheckBox thur = (CheckBox) findViewById(R.id.thur);
+        final CheckBox thu = (CheckBox) findViewById(R.id.thu);
         final CheckBox fri = (CheckBox) findViewById(R.id.fri);
         final CheckBox sat = (CheckBox) findViewById(R.id.sat);
         final CheckBox sun = (CheckBox) findViewById(R.id.sun);
@@ -123,20 +121,30 @@ public class NewProfileActivity extends AppCompatActivity {
                 ContentValues mNewValues = new ContentValues();
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_LAT, latlng.latitude);
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_LNG, latlng.longitude);
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_TITLE, title.getText().toString());
+                if (!title.getText().toString().isEmpty()) {
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_TITLE, title.getText().toString());
+                }
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_SHAPE, toInt(shape.isChecked()));
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_RADIUS, radius.getText().toString());
+                if (!radius.getText().toString().isEmpty()) {
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_RADIUS, radius.getText().toString());
+                }
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_MON, toInt(mon.isChecked()));
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_TUES, toInt(tues.isChecked()));
+                mNewValues.put(ProfileProvider.ProfileEntry.COL_TUE, toInt(tue.isChecked()));
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_WED, toInt(wed.isChecked()));
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_THUR, toInt(thur.isChecked()));
+                mNewValues.put(ProfileProvider.ProfileEntry.COL_THU, toInt(thu.isChecked()));
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_FRI, toInt(fri.isChecked()));
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_SAT, toInt(sat.isChecked()));
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_SUN, toInt(sun.isChecked()));
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_TIME_START, timeTxtFrom.getText().toString());
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_TIME_END, timeTxtTo.getText().toString());
+                if (!timeTxtFrom.getText().toString().isEmpty()){
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_TIME_START, timeTxtFrom.getText().toString());
+                }
+                if(!timeTxtTo.getText().toString().isEmpty()) {
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_TIME_END, timeTxtTo.getText().toString());
+                }
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_COLOR, ((ColorDrawable) color.getBackground()).getColor());
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_MESSAGE, message.getText().toString());
+                if(!message.getText().toString().isEmpty()) {
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_MESSAGE, message.getText().toString());
+                }
 
                 Uri mNewUri = getContentResolver().insert(
                         ProfileProvider.CONTENT_URI,
@@ -166,7 +174,6 @@ public class NewProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-
     public static class TimePickerFragmentFrom extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
 
@@ -184,7 +191,7 @@ public class NewProfileActivity extends AppCompatActivity {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa", Locale.US);
+            SimpleDateFormat sdf = new SimpleDateFormat("kk:mm");
             Date date = new Date(0, 0, 0, hourOfDay, minute);
             timeTxtFrom.setText(sdf.format(date));
         }
@@ -207,7 +214,7 @@ public class NewProfileActivity extends AppCompatActivity {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa", Locale.US);
+            SimpleDateFormat sdf = new SimpleDateFormat("kk:mm");
             Date date = new Date(0, 0, 0, hourOfDay, minute);
             timeTxtTo.setText(sdf.format(date));
         }

@@ -13,14 +13,12 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.AdapterView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -37,9 +35,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
-
-import java.util.ArrayList;
 
 import edu.uw.profile.provider.Profile;
 import edu.uw.profile.provider.ProfileProvider;
@@ -50,7 +45,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
     private static final String TAG = "MAP";
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
-    private Location curLoc;
+    private static Location curLoc;
     private Marker curLocMarker;
     private LatLng currentPoints;
 
@@ -128,10 +123,13 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
                 return true;
             }
         });
-        String[] projection = new String[] {Profile.LAT, Profile.LNG, Profile.SHAPE,
-                Profile.RADIUS, Profile.COLOR};
+        String[] projection = new String[] {Profile.ID, Profile.LAT, Profile.LNG, Profile.TITLE,
+                Profile.SHAPE, Profile.RADIUS, Profile.MON, Profile.TUE, Profile.WED,
+                Profile.THU, Profile.FRI, Profile.SAT, Profile.SUN,
+                Profile.TIME_START, Profile.TIME_END, Profile.COLOR, Profile.MESSAGE};
         Cursor cur = getContentResolver().query(ProfileProvider.CONTENT_URI, projection,
                 null, null, null);
+
         while(cur.moveToNext()){
             double lat = cur.getDouble(cur.getColumnIndex("lat"));
             double lng = cur.getDouble(cur.getColumnIndex("lng"));
@@ -148,11 +146,15 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
                         .strokeColor(color));
             } else{
                 radius = radius / 111111;
+                double left = lng - (radius/2);
+                double right = lng + (radius/2);
+                double top = lat + (radius/2);
+                double bot = lat - (radius/2);
                 mMap.addPolygon(new PolygonOptions()
-                        .add(new LatLng(lat - (radius / 2), lng - (radius / 2)), new LatLng(lat + (radius / 2), lng - (radius / 2)))
-                        .add(new LatLng(lat + (radius / 2), lng - (radius / 2)), new LatLng(lat + (radius / 2), lng + (radius / 2)))
-                        .add(new LatLng(lat + (radius / 2), lng + (radius / 2)), new LatLng(lat - (radius / 2), lng + (radius / 2)))
-                        .add(new LatLng(lat - (radius / 2), lng + (radius / 2)), new LatLng(lat - (radius / 2), lng - (radius / 2)))
+                        .add(new LatLng(top, left), new LatLng(bot, left))
+                        .add(new LatLng(bot, left), new LatLng(bot, right))
+                        .add(new LatLng(bot, right), new LatLng(top, right))
+                        .add(new LatLng(top, right), new LatLng(top, left))
                         .fillColor((color & 0x00FFFFFF) | 0x40000000)
                         .strokeColor(color));
             }
@@ -193,21 +195,22 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
                     REQUEST_CODE);
         }
 
+        if(curLoc == null) {
+            curLoc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        } else {
+            LatLng latlng = new LatLng(curLoc.getLatitude(), curLoc.getLongitude());
+            curLocMarker = mMap.addMarker(new MarkerOptions().position(latlng)
+                    .title("Current Location")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        }
+
         if(currentPoints == null) {
-            if(curLoc == null) {
-                curLoc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            } else {
+            if(curLoc != null) {
                 LatLng latlng = new LatLng(curLoc.getLatitude(), curLoc.getLongitude());
-                curLocMarker = mMap.addMarker(new MarkerOptions().position(latlng)
-                        .title("Current Location")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 16.0f));
             }
         } else {
-            curLocMarker = mMap.addMarker(new MarkerOptions().position(currentPoints)
-                    .title("Current Location")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(currentPoints));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPoints, 16.0f));
         }

@@ -16,6 +16,10 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Created by Kevin on 5/25/2016.
  * Based off TodoListProvider by Joel Ross
@@ -48,9 +52,9 @@ public class ProfileProvider extends ContentProvider{
         public static final String COL_SHAPE = "shape";
         public static final String COL_RADIUS = "radius";
         public static final String COL_MON = "mon";
-        public static final String COL_TUES = "tues";
+        public static final String COL_TUE = "tue";
         public static final String COL_WED = "wed";
-        public static final String COL_THUR = "thur";
+        public static final String COL_THU = "thu";
         public static final String COL_FRI = "fri";
         public static final String COL_SAT = "sat";
         public static final String COL_SUN = "sun";
@@ -93,14 +97,14 @@ public class ProfileProvider extends ContentProvider{
                         ProfileEntry.COL_SHAPE + " INTEGER" + "," +
                         ProfileEntry.COL_RADIUS + " DOUBLE" + ","+
                         ProfileEntry.COL_MON + " INTEGER" + ","+
-                        ProfileEntry.COL_TUES + " INTEGER" + ","+
+                        ProfileEntry.COL_TUE + " INTEGER" + ","+
                         ProfileEntry.COL_WED + " INTEGER" + ","+
-                        ProfileEntry.COL_THUR + " INTEGER" + ","+
+                        ProfileEntry.COL_THU + " INTEGER" + ","+
                         ProfileEntry.COL_FRI + " INTEGER" + ","+
                         ProfileEntry.COL_SAT + " INTEGER" + ","+
                         ProfileEntry.COL_SUN + " INTEGER" + ","+
-                        ProfileEntry.COL_TIME_START + " INTEGER" + ","+
-                        ProfileEntry.COL_TIME_END + " INTEGER" + ","+
+                        ProfileEntry.COL_TIME_START + " STRING" + ","+
+                        ProfileEntry.COL_TIME_END + " STRING" + ","+
                         ProfileEntry.COL_COLOR + " INTEGER" + ","+
                         ProfileEntry.COL_MESSAGE + " TEXT" + ","+
                         ProfileEntry.COL_ACTIVE + " INTEGER" +
@@ -177,50 +181,26 @@ public class ProfileProvider extends ContentProvider{
             values.put(ProfileEntry.COL_TITLE, "Untitled");
         }
 
-        if(!values.containsKey(ProfileEntry.COL_SHAPE)){
-            values.put(ProfileEntry.COL_SHAPE, 100.0);
-        }
-
-        if(!values.containsKey(ProfileEntry.COL_RADIUS)){
-            values.put(ProfileEntry.COL_RADIUS, 0);
-        }
-
-        if(!values.containsKey(ProfileEntry.COL_MON)){
-            values.put(ProfileEntry.COL_MON, 0);
-        }
-        if(!values.containsKey(ProfileEntry.COL_TUES)){
-            values.put(ProfileEntry.COL_TUES, 0);
-        }
-        if(!values.containsKey(ProfileEntry.COL_WED)){
-            values.put(ProfileEntry.COL_WED, 0);
-        }
-        if(!values.containsKey(ProfileEntry.COL_THUR)){
-            values.put(ProfileEntry.COL_THUR, 0);
-        }
-        if(!values.containsKey(ProfileEntry.COL_FRI)){
-            values.put(ProfileEntry.COL_FRI, 0);
-        }
-        if(!values.containsKey(ProfileEntry.COL_SAT)){
-            values.put(ProfileEntry.COL_SAT, 0);
-        }
-        if(!values.containsKey(ProfileEntry.COL_SUN)){
-            values.put(ProfileEntry.COL_SUN, 0);
+        //Default radius of 100
+        if(!values.containsKey(ProfileEntry.COL_RADIUS)) {
+            values.put(ProfileEntry.COL_RADIUS, 100.0);
         }
 
         if(!values.containsKey(ProfileEntry.COL_TIME_START)){
-            values.put(ProfileEntry.COL_TIME_START, System.currentTimeMillis());
+            SimpleDateFormat sdf = new SimpleDateFormat("kk:mm");
+            values.put(ProfileEntry.COL_TIME_START, sdf.format(System.currentTimeMillis()));
         }
         if(!values.containsKey(ProfileEntry.COL_TIME_END)){
-            values.put(ProfileEntry.COL_TIME_END, System.currentTimeMillis());
+            SimpleDateFormat sdf = new SimpleDateFormat("kk:mm");
+            values.put(ProfileEntry.COL_TIME_END, sdf.format(System.currentTimeMillis() + 3600000));
         }
 
         if(!values.containsKey(ProfileEntry.COL_MESSAGE)){
             values.put(ProfileEntry.COL_MESSAGE, "I'm busy so here's an auto-reply message");
         }
 
-        if(!values.containsKey(ProfileEntry.COL_ACTIVE)){
-            values.put(ProfileEntry.COL_ACTIVE, 0);
-        }
+        //On by default
+        values.put(ProfileEntry.COL_ACTIVE, 1);
 
         //created now, no matter what
         values.put(ProfileEntry.COL_TIME_CREATED, System.currentTimeMillis());

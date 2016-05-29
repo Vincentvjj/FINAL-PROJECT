@@ -25,10 +25,9 @@
                     android:paddingTop="20dp"/>
 
                 <EditText
-                    android:id="@+id/title_edit"
+                    android:id="@+id/edit_title_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="The title of the profile"
                     />
 
             </LinearLayout>
@@ -87,7 +86,7 @@
 
 
                 <EditText
-                    android:id="@+id/radius_edit"
+                    android:id="@+id/edit_radius_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="size of the shape (meters) "
@@ -117,55 +116,48 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <CheckBox
-                        android:id="@+id/mon"
+                        android:id="@+id/edit_mon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mon"
-                        android:checked="true"/>
+                        android:text="Mon"/>
                     <CheckBox
-                        android:id="@+id/tue"
+                        android:id="@+id/edit_tues"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/mon"
-                        android:text="Tue"
-                        android:checked="true"/>
+                        android:layout_toRightOf="@id/edit_mon"
+                        android:text="Tues"/>
                     <CheckBox
-                        android:id="@+id/wed"
+                        android:id="@+id/edit_wed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/tue"
-                        android:text="Wed"
-                        android:checked="true"/>
+                        android:layout_toRightOf="@id/edit_tues"
+                        android:text="Wed"/>
                     <CheckBox
-                        android:id="@+id/thu"
+                        android:id="@+id/edit_thur"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/wed"
-                        android:text="Thu"
-                        android:checked="true"/>
+                        android:layout_toRightOf="@id/edit_wed"
+                        android:text="Thur"/>
                     <CheckBox
-                        android:id="@+id/fri"
+                        android:id="@+id/edit_fri"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/mon"
-                        android:text="Fri"
-                        android:checked="true"/>
+                        android:layout_below="@id/edit_mon"
+                        android:text="Fri"/>
                     <CheckBox
-                        android:id="@+id/sat"
+                        android:id="@+id/edit_sat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/fri"
-                        android:layout_below="@id/tue"
-                        android:text="Sat"
-                        android:checked="true"/>
+                        android:layout_toRightOf="@id/edit_fri"
+                        android:layout_below="@id/edit_tues"
+                        android:text="Sat"/>
                     <CheckBox
-                        android:id="@+id/sun"
+                        android:id="@+id/edit_sun"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/wed"
-                        android:layout_toRightOf="@id/sat"
-                        android:text="Sun"
-                        android:checked="true"/>
+                        android:layout_below="@id/edit_wed"
+                        android:layout_toRightOf="@id/edit_sat"
+                        android:text="Sun"/>
 
                 </RelativeLayout>
 
@@ -189,20 +181,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="80dp">
                     <Button
-                        android:id="@+id/timePickerFrom"
+                        android:id="@+id/edit_timePickerFrom"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:textSize="10sp"
                         android:text="From"></Button>
                     <TextView
-                        android:id="@+id/timePickedFrom"
+                        android:id="@+id/edit_timePickedFrom"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/timePickerFrom"
+                        android:layout_below="@id/edit_timePickerFrom"
                         />
 
                     <Button
-                        android:id="@+id/timePickerTo"
+                        android:id="@+id/edit_timePickerTo"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:textSize="10sp"
@@ -213,11 +205,11 @@
                         android:layout_marginRight="54dp"
                         android:layout_marginEnd="54dp"></Button>
                     <TextView
-                        android:id="@+id/timePickedTo"
+                        android:id="@+id/edit_timePickedTo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/timePickerTo"
-                        android:layout_alignLeft="@+id/timePickerTo"/>
+                        android:layout_below="@id/edit_timePickerTo"
+                        android:layout_alignLeft="@+id/edit_timePickerTo"/>
 
                 </RelativeLayout>
             </LinearLayout>
@@ -244,7 +236,7 @@
                     android:text="Pick Color"/>
 
                 <View
-                    android:id="@+id/color_box"
+                    android:id="@+id/edit_color_box"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:background="@color/mat_red"/>
@@ -260,7 +252,7 @@
                 android:paddingTop="20dp"/>
 
             <EditText
-                android:id="@+id/auto_reply_message"
+                android:id="@+id/edit_auto_reply_message"
                 android:inputType="textMultiLine"
                 android:lines="8"
                 android:minLines="2"
@@ -291,6 +283,21 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Save"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/mat_red"
+                    android:text="Delete"/>
 
             </LinearLayout>
         </LinearLayout>

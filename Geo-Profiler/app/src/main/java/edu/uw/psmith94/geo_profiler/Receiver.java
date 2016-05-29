@@ -60,11 +60,11 @@ public class Receiver extends BroadcastReceiver {
                 case 2:
                     dayContent = Profile.MON;
                 case 3:
-                    dayContent = Profile.TUES;
+                    dayContent = Profile.TUE;
                 case 4:
                     dayContent = Profile.WED;
                 case 5:
-                    dayContent = Profile.THUR;
+                    dayContent = Profile.THU;
                 case 6:
                     dayContent = Profile.FRI;
                 case 7:
@@ -99,7 +99,9 @@ public class Receiver extends BroadcastReceiver {
 
             while(cur.moveToNext()){
                 //checks time first, then the coordinates
-                Log.v("TAG", (cur.getString(cur.getColumnIndex(Profile.MESSAGE))));
+                Log.v("TAG", (cur.getString(cur.getColumnIndex(Profile.TIME_END))));
+                Log.v("TAG", (cur.getString(cur.getColumnIndex(Profile.TIME_START))));
+
             }
             cur.close();
 
