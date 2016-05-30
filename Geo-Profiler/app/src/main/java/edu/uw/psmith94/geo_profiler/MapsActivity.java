@@ -48,7 +48,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
     private static Location curLoc;
     private Marker curLocMarker;
     private LatLng currentPoints;
-    private boolean saved;
+    private Marker newMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,8 +98,8 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
-                marker.setPosition(latLng);
+                newMarker = mMap.addMarker(new MarkerOptions().position(latLng));
+                newMarker.setPosition(latLng);
                 Bundle args = new Bundle();
                 args.putParcelable("latlng", latLng);
                 Intent intent = new Intent(MapsActivity.this, NewProfileActivity.class);
