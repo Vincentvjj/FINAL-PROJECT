@@ -9,7 +9,10 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -23,6 +26,8 @@ import edu.uw.profile.provider.ProfileProvider;
  */
 public class ListProfiles extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String TAG = "List Profiles";
+
     private SimpleCursorAdapter adapter;
 
     @Override
@@ -33,33 +38,37 @@ public class ListProfiles extends AppCompatActivity implements LoaderManager.Loa
         String[] projection = new String[]{Profile.TITLE, Profile.TIME_START, Profile.TIME_END,
             Profile.ACTIVE, Profile.ID};
         adapter = new SimpleCursorAdapter(this,
-                R.layout.list_layout,
+                R.layout.list_view_item,
                 null,
                 projection,
-                new int[]{R.id.listItem, R.id.profile_toggle2}, 0);
+                new int[]{R.id.list_title, R.id.list_time_start, R.id.list_time_end}, 0);
+
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.v(TAG, "---------------------------");
+                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                Bundle bundle = new Bundle();
+                bundle.putDouble("lat", cursor.getDouble(cursor.getColumnIndex("lat")));
+                bundle.putDouble("lng", cursor.getDouble(cursor.getColumnIndex("lng")));
+                Intent intent = new Intent(ListProfiles.this, DetailActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
         getSupportLoaderManager().initLoader(0, null, this);
 
         super.onCreate(savedInstanceState);
-
-
-//        Button editButton = (Button)findViewById(R.id.edit_button);
-//
-//        editButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(ListProfiles.this, DetailActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//    }
-
     }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = new String[]{Profile.TITLE, Profile.TIME_START, Profile.TIME_END,
-                Profile.ACTIVE, Profile.ID};
+                Profile.ACTIVE, Profile.ID, Profile.LAT, Profile.LNG};
         CursorLoader loader = new CursorLoader(ListProfiles.this, ProfileProvider.CONTENT_URI,
                 projection, null, null, null);
         return loader;
