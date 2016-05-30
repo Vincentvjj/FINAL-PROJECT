@@ -192,7 +192,7 @@ public class NewProfileActivity extends AppCompatActivity {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            SimpleDateFormat sdf = new SimpleDateFormat("kk:mm");
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             Date date = new Date(0, 0, 0, hourOfDay, minute);
             timeTxtFrom.setText(sdf.format(date));
         }
@@ -215,7 +215,7 @@ public class NewProfileActivity extends AppCompatActivity {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            SimpleDateFormat sdf = new SimpleDateFormat("kk:mm");
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             Date date = new Date(0, 0, 0, hourOfDay, minute);
             timeTxtTo.setText(sdf.format(date));
         }
