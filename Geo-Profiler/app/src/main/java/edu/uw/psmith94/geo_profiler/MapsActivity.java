@@ -81,6 +81,9 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
     @Override
     protected void onStart() {
         mGoogleApiClient.connect();
+        if(newMarker != null){
+            newMarker.remove();
+        }
         super.onStart();
     }
 
