@@ -1,31 +1,14 @@
 package edu.uw.psmith94.geo_profiler;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.provider.Telephony;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.content.ContextCompat;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
-import android.util.Log;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -82,7 +65,7 @@ public class Receiver extends BroadcastReceiver {
             String whereClause = Profile.ACTIVE + "= 1" + " AND " + dayContent + " = 1";
 
             Cursor cur = context.getContentResolver().query(ProfileProvider.CONTENT_URI, projection,
-                    whereClause, null, null);
+                    whereClause, null, Profile.ID + "ASC");
 
 
 
@@ -107,15 +90,33 @@ public class Receiver extends BroadcastReceiver {
 //                    check coordinates now
                         float[] distance = new float[2];
 
-                        Location.distanceBetween(lo.getLatitude(), lo.getLongitude(), lat, lng, distance);
 
-                        if(distance[0] >= cur.getInt(cur.getColumnIndex(Profile.RADIUS))) {
+                        if (cur.getInt(cur.getColumnIndex(Profile.SHAPE)) == 0) {
+                            Location.distanceBetween(lo.getLatitude(), lo.getLongitude(), lat, lng, distance);
 
-                            SmsManager smsManager = SmsManager.getDefault();
-                            smsManager.sendTextMessage(author, null, cur.getString(cur.getColumnIndex(Profile.MESSAGE))
-                                    , null, null);
+                            if (distance[0] >= cur.getInt(cur.getColumnIndex(Profile.RADIUS))) {
+
+                                SmsManager smsManager = SmsManager.getDefault();
+                                smsManager.sendTextMessage(author, null, cur.getString(cur.getColumnIndex(Profile.MESSAGE))
+                                        , null, null);
+                                break;
+                            }
+                        } else {
+                            double radius = cur.getInt(cur.getColumnIndex(Profile.RADIUS));
+                            double latRadius = radius / 111111;
+                            double lonRadius = radius / 75114;
+                            double left = lng - (lonRadius/2);
+                            double right = lng + (lonRadius/2);
+                            double top = lat + (latRadius/2);
+                            double bot = lat - (latRadius/2);
+                            if((lo.getLongitude() >= left && lo.getLongitude() <= right)
+                                    && (lo.getLatitude() >= bot && lo.getLatitude() <= top)) {
+                                SmsManager smsManager = SmsManager.getDefault();
+                                smsManager.sendTextMessage(author, null, cur.getString(cur.getColumnIndex(Profile.MESSAGE))
+                                        , null, null);
+                                break;
+                            }
                         }
-
                     }
 
                 }
