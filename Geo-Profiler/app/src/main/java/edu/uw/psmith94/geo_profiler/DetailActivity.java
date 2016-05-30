@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -59,6 +60,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         Bundle bundle = getIntent().getExtras();
         final double lat = bundle.getDouble("lat");
         final double lng = bundle.getDouble("lng");
+        final LinearLayout buttons = (LinearLayout)findViewById(R.id.buttons);
+        buttons.setVisibility(LinearLayout.GONE);
+
 
         getSupportLoaderManager().initLoader(0, null, this);
 
@@ -162,8 +166,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
 
-        Button saveBtn = (Button)findViewById(R.id.saveBtn);
-        Button cancelBtn = (Button)findViewById(R.id.cancelBtn);
+        Button saveBtn = (Button)findViewById(R.id.edit_saveBtn);
+        Button cancelBtn = (Button)findViewById(R.id.edit_cancelBtn);
+        Button deleteBtn = (Button)findViewById(R.id.edit_delete);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -210,6 +215,17 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             public void onClick(View v) {
                 Intent intent = new Intent(DetailActivity.this, MapsActivity.class);
                 intent.putExtra("edu.uw.psmith94.saved", false);
+                startActivity(intent);
+            }
+        });
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContentResolver cr = getContentResolver();
+                cr.delete(ProfileProvider.CONTENT_URI, "_id=" + id, null);
+
+                Intent intent = new Intent(DetailActivity.this, MapsActivity.class);
                 startActivity(intent);
             }
         });

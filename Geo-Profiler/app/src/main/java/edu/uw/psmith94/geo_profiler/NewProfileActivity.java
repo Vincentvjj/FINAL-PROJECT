@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -64,7 +65,8 @@ public class NewProfileActivity extends AppCompatActivity {
 
         timeTxtFrom = (TextView)findViewById(R.id.timePickedFrom);
         timeTxtTo = (TextView)findViewById(R.id.timePickedTo);
-
+        final LinearLayout edit_buttons = (LinearLayout)findViewById(R.id.edit_buttons);
+        edit_buttons.setVisibility(LinearLayout.GONE);
         final View color = findViewById(R.id.color_box);
         color.setBackgroundColor((int) (Math.random() * -16777216));
         final TextView message = (TextView) findViewById(R.id.auto_reply_message);
@@ -105,7 +107,6 @@ public class NewProfileActivity extends AppCompatActivity {
         });
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
-
             public int toInt(boolean value){
                 if(value){
                     return 1;
@@ -115,47 +116,45 @@ public class NewProfileActivity extends AppCompatActivity {
             }
             @Override
             public void onClick(View v) {
-                Bundle bundle = getIntent().getParcelableExtra("edu.uw.psmith94.bundle");
-                LatLng latlng = bundle.getParcelable("latlng");
+                if (radius.getText().toString().isEmpty() || message.getText().toString().isEmpty()
+                        || timeTxtFrom.getText().toString().isEmpty() || timeTxtTo.getText().toString().isEmpty()
+                        || title.getText().toString().isEmpty()) {
+                    Toast.makeText(NewProfileActivity.this, "please fill required fields", Toast.LENGTH_LONG).show();
+                }
+                else{
 
-                ContentValues mNewValues = new ContentValues();
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_LAT, latlng.latitude);
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_LNG, latlng.longitude);
-                if (!title.getText().toString().isEmpty()) {
+                    Bundle bundle = getIntent().getParcelableExtra("edu.uw.psmith94.bundle");
+                    LatLng latlng = bundle.getParcelable("latlng");
+
+                    ContentValues mNewValues = new ContentValues();
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_LAT, latlng.latitude);
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_LNG, latlng.longitude);
                     mNewValues.put(ProfileProvider.ProfileEntry.COL_TITLE, title.getText().toString());
-                }
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_SHAPE, toInt(shape.isChecked()));
-                if (!radius.getText().toString().isEmpty()) {
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_SHAPE, toInt(shape.isChecked()));
                     mNewValues.put(ProfileProvider.ProfileEntry.COL_RADIUS, radius.getText().toString());
-                }
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_MON, toInt(mon.isChecked()));
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_TUE, toInt(tue.isChecked()));
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_WED, toInt(wed.isChecked()));
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_THU, toInt(thu.isChecked()));
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_FRI, toInt(fri.isChecked()));
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_SAT, toInt(sat.isChecked()));
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_SUN, toInt(sun.isChecked()));
-                if (!timeTxtFrom.getText().toString().isEmpty()){
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_MON, toInt(mon.isChecked()));
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_TUE, toInt(tue.isChecked()));
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_WED, toInt(wed.isChecked()));
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_THU, toInt(thu.isChecked()));
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_FRI, toInt(fri.isChecked()));
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_SAT, toInt(sat.isChecked()));
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_SUN, toInt(sun.isChecked()));
                     mNewValues.put(ProfileProvider.ProfileEntry.COL_TIME_START, timeTxtFrom.getText().toString());
-                }
-                if(!timeTxtTo.getText().toString().isEmpty()) {
                     mNewValues.put(ProfileProvider.ProfileEntry.COL_TIME_END, timeTxtTo.getText().toString());
-                }
-                mNewValues.put(ProfileProvider.ProfileEntry.COL_COLOR, ((ColorDrawable) color.getBackground()).getColor());
-                if(!message.getText().toString().isEmpty()) {
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_COLOR, ((ColorDrawable) color.getBackground()).getColor());
                     mNewValues.put(ProfileProvider.ProfileEntry.COL_MESSAGE, message.getText().toString());
+
+                    Uri mNewUri = getContentResolver().insert(
+                            ProfileProvider.CONTENT_URI,
+                            mNewValues
+                    );
+                    Toast.makeText(NewProfileActivity.this, "Saved!", Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent(NewProfileActivity.this, MapsActivity.class);
+                    intent.putExtra("edu.uw.psmith94.saved", true);
+                    intent.putExtra("coordinates", latlng);
+                    startActivity(intent);
                 }
-
-                Uri mNewUri = getContentResolver().insert(
-                        ProfileProvider.CONTENT_URI,
-                        mNewValues
-                );
-                Toast.makeText(NewProfileActivity.this, "Saved!", Toast.LENGTH_LONG).show();
-
-                Intent intent = new Intent(NewProfileActivity.this, MapsActivity.class);
-                intent.putExtra("saved", true);
-                intent.putExtra("coordinates", latlng);
-                startActivity(intent);
             }
         });
 

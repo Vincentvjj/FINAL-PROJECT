@@ -29,6 +29,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.List;
 
 import edu.uw.profile.provider.Profile;
 import edu.uw.profile.provider.ProfileProvider;
@@ -40,9 +41,10 @@ import edu.uw.profile.provider.ProfileProvider;
 
 public class Receiver extends BroadcastReceiver {
 
+    LocationManager mLocationManager;
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.v("TAG", "does it even fo here?");
         if (intent.getAction() == Telephony.Sms.Intents.SMS_RECEIVED_ACTION) {
 
             SmsMessage[] sms = Telephony.Sms.Intents.getMessagesFromIntent(intent);
@@ -82,22 +84,10 @@ public class Receiver extends BroadcastReceiver {
             Cursor cur = context.getContentResolver().query(ProfileProvider.CONTENT_URI, projection,
                     whereClause, null, null);
 
-            //get my last coordinate
-            LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
-            int permissionCheck = ContextCompat.checkSelfPermission
-                    (context, Manifest.permission.ACCESS_FINE_LOCATION); // getpermision
-            if(permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                Location lo = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                if(lo!=null) {
-                    Log.v("TAG", lo.toString());
-                }
-            }
-            else {
-                ActivityCompat.requestPermissions((Activity) context, new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-            }
 
+            Location lo = getLastKnownLocation(context);
+            // checks if location is null or not. If it is not null, then proceed, if yes, then don't do anything
 
             while(cur.moveToNext()){
                 //checks time first, then the coordinates
@@ -108,6 +98,24 @@ public class Receiver extends BroadcastReceiver {
             cur.close();
 
         }
+    }
+
+
+    private Location getLastKnownLocation(Context context) {
+        mLocationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            Location l = mLocationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
     }
 
 
