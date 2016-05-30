@@ -87,15 +87,42 @@ public class Receiver extends BroadcastReceiver {
 
 
             Location lo = getLastKnownLocation(context);
-            // checks if location is null or not. If it is not null, then proceed, if yes, then don't do anything
+            if(lo == null) {
+                Toast.makeText(context, "Please turn on location to auto-reply", Toast.LENGTH_LONG).show();
+            } else {
+                while(cur.moveToNext()){
+                    String[] timeArrStart = cur.getString(cur.getColumnIndex(Profile.TIME_START)).split(":");
+                    String[] timeArrEnd = cur.getString(cur.getColumnIndex(Profile.TIME_END)).split(":");
 
-            while(cur.moveToNext()){
-                //checks time first, then the coordinates
-                Log.v("TAG", (cur.getString(cur.getColumnIndex(Profile.TIME_END))));
-                Log.v("TAG", (cur.getString(cur.getColumnIndex(Profile.TIME_START))));
+                    int timeStart= Integer.parseInt(timeArrStart[0]) * 24 + (Integer.parseInt(timeArrStart[1]));
+                    int timeEnd = Integer.parseInt(timeArrEnd[0]) * 24 + Integer.parseInt(timeArrEnd[1]) ;
+                    int timeNow = hour * 24 + min;
+
+                    Double lat = cur.getDouble(cur.getColumnIndex(Profile.LAT));
+                    Double lng = cur.getDouble(cur.getColumnIndex(Profile.LNG));
+
+
+                    if(timeStart <= timeNow && timeEnd >= timeNow) {
+
+//                    check coordinates now
+                        float[] distance = new float[2];
+
+                        Location.distanceBetween(lo.getLatitude(), lo.getLongitude(), lat, lng, distance);
+
+                        if(distance[0] >= cur.getInt(cur.getColumnIndex(Profile.RADIUS))) {
+
+                            SmsManager smsManager = SmsManager.getDefault();
+                            smsManager.sendTextMessage(author, null, cur.getString(cur.getColumnIndex(Profile.MESSAGE))
+                                    , null, null);
+                        }
+
+                    }
+
+                }
+                cur.close();
 
             }
-            cur.close();
+
 
         }
     }
