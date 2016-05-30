@@ -47,10 +47,8 @@ import es.dmoral.coloromatic.colormode.ColorMode;
 public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final String TAG = "DETAIL";
-
     private static TextView timeTxtFrom;
     private static TextView timeTxtTo;
-
     private int id = -1;
 
     @Override
@@ -72,6 +70,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 Profile.TIME_START, Profile.TIME_END, Profile.COLOR, Profile.MESSAGE};
         Cursor cur = getContentResolver().query(ProfileProvider.CONTENT_URI, projection,
                 null, null, null);
+        //Gets id of correct profile
         while(cur.moveToNext()){
             if(cur.getDouble(cur.getColumnIndex("lat")) == lat &&
                     cur.getDouble(cur.getColumnIndex("lng")) == lng){
@@ -97,6 +96,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         final EditText radiusEdit = (EditText)findViewById(R.id.radius_edit);
         final EditText autoReply = (EditText)findViewById(R.id.auto_reply_message);
 
+        //Sets all the parameters of profile
         timeTxtFrom.setText(cur.getString(cur.getColumnIndex("time_start")));
         timeTxtTo.setText(cur.getString(cur.getColumnIndex("time_end")));
         titleEdit.setText(cur.getString(cur.getColumnIndex("title")), TextView.BufferType.EDITABLE);
@@ -111,7 +111,16 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         satCheck.setChecked(toBool(cur.getInt(cur.getColumnIndex("sat"))));
         shapeSwitch.setChecked(toBool(cur.getInt(cur.getColumnIndex("shape"))));
         final View box = findViewById(R.id.color_box);
-        box.setBackgroundColor(cur.getInt(cur.getColumnIndex("color")));
+        final int color = cur.getInt(cur.getColumnIndex("color"));
+        box.setBackgroundColor(color);
+
+        timePickerFrom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment timeFragment = new TimePickerFragmentFrom();
+                timeFragment.show(getSupportFragmentManager(), "time_picker");
+            }
+        });
 
         timePickerTo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +135,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             public void onClick(View v) {
                 new ColorOMaticDialog.Builder()
                         .colorMode(ColorMode.ARGB) // RGB, ARGB, HVS
+                        .initialColor(color)
                         .indicatorMode(IndicatorMode.HEX) // HEX or DECIMAL; Note that using HSV with IndicatorMode.HEX is not recommended
                         .onColorSelected(new OnColorSelectedListener() {
                             @Override
@@ -140,36 +150,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
 
-        timePickerFrom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment timeFragment = new TimePickerFragmentFrom();
-                timeFragment.show(getSupportFragmentManager(), "time_picker");
-            }
-        });
-
-        colorPicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new ColorOMaticDialog.Builder()
-                        .colorMode(ColorMode.ARGB) // RGB, ARGB, HVS
-                        .indicatorMode(IndicatorMode.HEX) // HEX or DECIMAL; Note that using HSV with IndicatorMode.HEX is not recommended
-                        .onColorSelected(new OnColorSelectedListener() {
-                            @Override
-                            public void onColorSelected(@ColorInt int i) {
-                                //change something here
-                            }
-                        })
-                        .showColorIndicator(true) // Default false, choose to show text indicator showing the current color in HEX or DEC (see images) or not
-                        .create()
-                        .show(getSupportFragmentManager(), "ColorOMaticDialog");
-            }
-        });
-
         Button saveBtn = (Button)findViewById(R.id.edit_saveBtn);
         Button cancelBtn = (Button)findViewById(R.id.edit_cancelBtn);
         Button deleteBtn = (Button)findViewById(R.id.edit_delete);
 
+        //Saves all values and updates database, returns to map screen
         saveBtn.setOnClickListener(new View.OnClickListener() {
 
             public int toInt(boolean value){
@@ -210,6 +195,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
 
+        //Returns to map screen
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -219,6 +205,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
 
+        //Deletes profile
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -230,27 +217,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.detail_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.menu_delete:
-                ContentResolver cr = getContentResolver();
-                cr.delete(ProfileProvider.CONTENT_URI, "_id=" + id, null);
-
-                Intent intent = new Intent(DetailActivity.this, MapsActivity.class);
-                startActivity(intent);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

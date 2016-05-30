@@ -61,7 +61,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
         mapFragment.getMapAsync(this);
         getSupportActionBar();
 
-
+        //Gets coordinates of clicked location
         if(getIntent().getParcelableExtra("coordinates") != null) {
             currentPoints = getIntent().getParcelableExtra("coordinates");
         }
@@ -78,6 +78,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
         getSupportLoaderManager().initLoader(0, null, this);
     }
 
+    //Removes marker if profile is not saved
     @Override
     protected void onStart() {
         mGoogleApiClient.connect();
@@ -98,6 +99,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
+        //If user long click on map, takes them to add profile screen
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
@@ -111,6 +113,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
             }
         });
 
+        //If user taps on marker, takes them to the detail screen for that location
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -134,6 +137,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
         Cursor cur = getContentResolver().query(ProfileProvider.CONTENT_URI, projection,
                 null, null, null);
 
+        //Draws markers and areas for each profile
         while(cur.moveToNext()){
             double lat = cur.getDouble(cur.getColumnIndex("lat"));
             double lng = cur.getDouble(cur.getColumnIndex("lng"));
@@ -149,11 +153,12 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
                         .fillColor((color & 0x00FFFFFF) | 0x40000000)
                         .strokeColor(color));
             } else{
-                radius = radius / 111111;
-                double left = lng - (radius/2);
-                double right = lng + (radius/2);
-                double top = lat + (radius/2);
-                double bot = lat - (radius/2);
+                double latRadius = radius / 111111;
+                double lonRadius = radius / 75114;
+                double left = lng - (lonRadius/2);
+                double right = lng + (lonRadius/2);
+                double top = lat + (latRadius/2);
+                double bot = lat - (latRadius/2);
                 mMap.addPolygon(new PolygonOptions()
                         .add(new LatLng(top, left), new LatLng(bot, left))
                         .add(new LatLng(bot, left), new LatLng(bot, right))
@@ -176,6 +181,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
+            //Takes user to list of profiles screen
             case R.id.menu_list:
                 Intent intent = new Intent(MapsActivity.this, ListProfiles.class);
                 startActivity(intent);
@@ -189,6 +195,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
     public void onConnected(@Nullable Bundle bundle) {
         LocationRequest request = locationRequest();
 
+        //Checks/Asks for permission for location
         int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if(permission == PackageManager.PERMISSION_GRANTED){
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, request, this);
@@ -199,6 +206,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
                     REQUEST_CODE);
         }
 
+        //Gets location and places marker for current location
         if(curLoc == null) {
             curLoc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         } else {
@@ -208,6 +216,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
         }
 
+        //Pans camera to either current location or last long tapped location
         if(currentPoints == null) {
             if(curLoc != null) {
                 LatLng latlng = new LatLng(curLoc.getLatitude(), curLoc.getLongitude());
