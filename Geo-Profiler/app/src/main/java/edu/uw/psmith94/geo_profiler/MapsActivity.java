@@ -48,6 +48,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
     private static Location curLoc;
     private Marker curLocMarker;
     private LatLng currentPoints;
+    private boolean saved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

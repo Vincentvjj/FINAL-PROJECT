@@ -153,7 +153,7 @@ public class NewProfileActivity extends AppCompatActivity {
                 Toast.makeText(NewProfileActivity.this, "Saved!", Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(NewProfileActivity.this, MapsActivity.class);
-                intent.putExtra("edu.uw.psmith94.saved", true);
+                intent.putExtra("saved", true);
                 intent.putExtra("coordinates", latlng);
                 startActivity(intent);
             }
