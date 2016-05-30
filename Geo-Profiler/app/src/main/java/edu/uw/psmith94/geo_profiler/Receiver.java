@@ -76,10 +76,10 @@ public class Receiver extends BroadcastReceiver {
             String[] projection = new String[]{Profile.ID, Profile.LAT, Profile.LNG, Profile.SHAPE, Profile.MESSAGE,
                     Profile.RADIUS, Profile.TIME_END, Profile.TIME_START, dayContent, Profile.ACTIVE};
 
-//            String whereClause = Profile.ACTIVE + "= 1" + " AND " + dayContent + " = 1";
+            String whereClause = Profile.ACTIVE + "= 1" + " AND " + dayContent + " = 1";
 
             Cursor cur = context.getContentResolver().query(ProfileProvider.CONTENT_URI, projection,
-                    null, null, null);
+                    whereClause, null, null);
 
             //get my last coordinate
             LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -89,7 +89,6 @@ public class Receiver extends BroadcastReceiver {
             if(permissionCheck == PackageManager.PERMISSION_GRANTED) {
                 Location lo = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 Log.v("TAG", lo.toString());
-//                locationManager.requestLocationUpdates(locationProvider, 0, 0, locationListener);
             }
             else {
                 ActivityCompat.requestPermissions((Activity)context, new String[]{
