@@ -149,11 +149,12 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
                         .fillColor((color & 0x00FFFFFF) | 0x40000000)
                         .strokeColor(color));
             } else{
-                radius = radius / 111111;
-                double left = lng - (radius/2);
-                double right = lng + (radius/2);
-                double top = lat + (radius/2);
-                double bot = lat - (radius/2);
+                double latRadius = radius / 111111;
+                double lonRadius = radius / 75114;
+                double left = lng - (lonRadius/2);
+                double right = lng + (lonRadius/2);
+                double top = lat + (latRadius/2);
+                double bot = lat - (latRadius/2);
                 mMap.addPolygon(new PolygonOptions()
                         .add(new LatLng(top, left), new LatLng(bot, left))
                         .add(new LatLng(bot, left), new LatLng(bot, right))
