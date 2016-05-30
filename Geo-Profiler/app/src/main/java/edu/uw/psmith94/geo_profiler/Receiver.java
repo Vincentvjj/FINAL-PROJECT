@@ -42,6 +42,7 @@ public class Receiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.v("TAG", "does it even fo here?");
         if (intent.getAction() == Telephony.Sms.Intents.SMS_RECEIVED_ACTION) {
 
             SmsMessage[] sms = Telephony.Sms.Intents.getMessagesFromIntent(intent);
@@ -88,10 +89,12 @@ public class Receiver extends BroadcastReceiver {
                     (context, Manifest.permission.ACCESS_FINE_LOCATION); // getpermision
             if(permissionCheck == PackageManager.PERMISSION_GRANTED) {
                 Location lo = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                Log.v("TAG", lo.toString());
+                if(lo!=null) {
+                    Log.v("TAG", lo.toString());
+                }
             }
             else {
-                ActivityCompat.requestPermissions((Activity)context, new String[]{
+                ActivityCompat.requestPermissions((Activity) context, new String[]{
                         Manifest.permission.ACCESS_FINE_LOCATION}, 0);
             }
 
