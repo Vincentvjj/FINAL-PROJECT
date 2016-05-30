@@ -67,9 +67,18 @@ public class NewProfileActivity extends AppCompatActivity {
         timeTxtTo = (TextView)findViewById(R.id.timePickedTo);
         final LinearLayout edit_buttons = (LinearLayout)findViewById(R.id.edit_buttons);
         edit_buttons.setVisibility(LinearLayout.GONE);
-        final View color = findViewById(R.id.color_box);
-        color.setBackgroundColor((int) (Math.random() * -16777216));
+        final View box = findViewById(R.id.color_box);
+        final int color = (int) (Math.random() * -16777216);
+        box.setBackgroundColor(color);
         final TextView message = (TextView) findViewById(R.id.auto_reply_message);
+
+        timePickerFrom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment timeFragment = new TimePickerFragmentFrom();
+                timeFragment.show(getSupportFragmentManager(), "time_picker");
+            }
+        });
 
         timePickerTo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +93,7 @@ public class NewProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new ColorOMaticDialog.Builder()
                         .colorMode(ColorMode.ARGB) // RGB, ARGB, HVS
+                        .initialColor(color)
                         .indicatorMode(IndicatorMode.HEX) // HEX or DECIMAL; Note that using HSV with IndicatorMode.HEX is not recommended
                         .onColorSelected(new OnColorSelectedListener() {
                             @Override
@@ -95,14 +105,6 @@ public class NewProfileActivity extends AppCompatActivity {
                         .showColorIndicator(true) // Default false, choose to show text indicator showing the current color in HEX or DEC (see images) or not
                         .create()
                         .show(getSupportFragmentManager(), "ColorOMaticDialog");
-            }
-        });
-
-        timePickerFrom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment timeFragment = new TimePickerFragmentFrom();
-                timeFragment.show(getSupportFragmentManager(), "time_picker");
             }
         });
 
@@ -141,7 +143,7 @@ public class NewProfileActivity extends AppCompatActivity {
                     mNewValues.put(ProfileProvider.ProfileEntry.COL_SUN, toInt(sun.isChecked()));
                     mNewValues.put(ProfileProvider.ProfileEntry.COL_TIME_START, timeTxtFrom.getText().toString());
                     mNewValues.put(ProfileProvider.ProfileEntry.COL_TIME_END, timeTxtTo.getText().toString());
-                    mNewValues.put(ProfileProvider.ProfileEntry.COL_COLOR, ((ColorDrawable) color.getBackground()).getColor());
+                    mNewValues.put(ProfileProvider.ProfileEntry.COL_COLOR, ((ColorDrawable) box.getBackground()).getColor());
                     mNewValues.put(ProfileProvider.ProfileEntry.COL_MESSAGE, message.getText().toString());
 
                     Uri mNewUri = getContentResolver().insert(
