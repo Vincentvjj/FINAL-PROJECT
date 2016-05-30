@@ -230,7 +230,7 @@
                     android:paddingTop="20dp"/>
 
                 <Button
-                    android:id="@+id/colorPicker"
+                    android:id="@+id/edit_colorPicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Pick Color"/>
@@ -264,6 +264,7 @@
                 />
 
             <LinearLayout
+                android:id="@+id/edit_buttons"
                 android:layout_marginLeft="10dp"
                 android:paddingRight="10dp"
                 android:orientation="horizontal"
@@ -271,34 +272,29 @@
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:id="@+id/cancelBtn"
+                    android:id="@+id/edit_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/mat_red"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:text="delete"/>
+
+                <Button
+                    android:id="@+id/edit_cancelBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@color/lightGrey"
                     android:layout_marginRight="10dp"
                     android:text="Cancel"/>
                 <Button
-                    android:id="@+id/saveBtn"
+                    android:id="@+id/edit_saveBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@color/green"
                     android:layout_weight="1"
                     android:text="Save"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/delete"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/mat_red"
-                    android:text="Delete"/>
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

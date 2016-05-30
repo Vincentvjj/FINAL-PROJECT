@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -64,7 +65,8 @@ public class NewProfileActivity extends AppCompatActivity {
 
         timeTxtFrom = (TextView)findViewById(R.id.timePickedFrom);
         timeTxtTo = (TextView)findViewById(R.id.timePickedTo);
-
+        final LinearLayout edit_buttons = (LinearLayout)findViewById(R.id.edit_buttons);
+        edit_buttons.setVisibility(LinearLayout.GONE);
         final View color = findViewById(R.id.color_box);
         color.setBackgroundColor((int) (Math.random() * -16777216));
         final TextView message = (TextView) findViewById(R.id.auto_reply_message);
