@@ -19,6 +19,8 @@
             android:textStyle="bold"
             android:text="The title"
             android:layout_gravity="center"
+
+
             android:id="@+id/list_title_profile"
             />
 
