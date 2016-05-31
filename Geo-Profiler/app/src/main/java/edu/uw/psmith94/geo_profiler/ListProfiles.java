@@ -3,6 +3,7 @@ package edu.uw.psmith94.geo_profiler;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -36,14 +37,14 @@ public class ListProfiles extends AppCompatActivity implements LoaderManager.Loa
         final AdapterView listView = (AdapterView)findViewById(R.id.profile_list);
 
         String[] projection = new String[]{Profile.TITLE, Profile.TIME_START, Profile.TIME_END,
-            Profile.ACTIVE, Profile.ID};
-        adapter = new SimpleCursorAdapter(this,
+                Profile.COLOR, Profile.ACTIVE, Profile.ID};
+        adapter = new MySimpleCursorAdapter(this,
                 R.layout.list_view_item,
                 null,
                 projection,
                 new int[]{R.id.list_title, R.id.list_time_start, R.id.list_time_end}, 0);
 
-        listView.setAdapter(adapter);
+            listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -68,7 +69,7 @@ public class ListProfiles extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = new String[]{Profile.TITLE, Profile.TIME_START, Profile.TIME_END,
-                Profile.ACTIVE, Profile.ID, Profile.LAT, Profile.LNG};
+                Profile.COLOR, Profile.ACTIVE, Profile.ID, Profile.LAT, Profile.LNG};
         CursorLoader loader = new CursorLoader(ListProfiles.this, ProfileProvider.CONTENT_URI,
                 projection, null, null, null);
         return loader;

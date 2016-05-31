@@ -3,6 +3,14 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/list_color_box"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/mat_red"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
