@@ -109,6 +109,9 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
                 args.putParcelable("latlng", latLng);
                 Intent intent = new Intent(MapsActivity.this, NewProfileActivity.class);
                 intent.putExtra("edu.uw.psmith94.bundle", args);
+                if(curLocMarker != null) {
+                    curLocMarker.remove();
+                }
                 startActivity(intent);
             }
         });
@@ -125,6 +128,9 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
                     bundle.putDouble("lat", lat);
                     bundle.putDouble("lng", lng);
                     intent.putExtras(bundle);
+                    if(curLocMarker != null) {
+                        curLocMarker.remove();
+                    }
                     startActivity(intent);
                 }
                 return true;
@@ -184,6 +190,9 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener, LoaderManager.Load
             //Takes user to list of profiles screen
             case R.id.menu_list:
                 Intent intent = new Intent(MapsActivity.this, ListProfiles.class);
+                if(curLocMarker != null) {
+                    curLocMarker.remove();
+                }
                 startActivity(intent);
                 return true;
         }
