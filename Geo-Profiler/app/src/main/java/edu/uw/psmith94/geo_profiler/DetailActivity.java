@@ -183,10 +183,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 mNewValues.put(ProfileProvider.ProfileEntry.COL_MESSAGE, autoReply.getText().toString());
 
                 getContentResolver().update(ProfileProvider.CONTENT_URI, mNewValues, "_id=" + id, null);
-                Uri mNewUri = getContentResolver().insert(
-                        ProfileProvider.CONTENT_URI,
-                        mNewValues
-                );
+
                 Toast.makeText(DetailActivity.this, "Saved!", Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(DetailActivity.this, MapsActivity.class);
