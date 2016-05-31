@@ -8,20 +8,19 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:background="@color/mat_red"/>
+        android:layout_marginLeft="10dp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="20dp">
 
 
         <TextView
             android:id="@+id/list_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
             android:paddingTop="10dp"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -30,7 +29,7 @@
         </TextView>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
@@ -63,6 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="20dp"
+        android:paddingEnd="20dp"
         android:layout_weight="1"
         android:focusable="false"
         android:focusableInTouchMode="false"

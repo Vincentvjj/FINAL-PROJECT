@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,6 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
         this.mContext = context;
         this.inflater=LayoutInflater.from(context);
         this.cr=c;
-        flag = true;
     }
 
     @Override
@@ -68,28 +68,41 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
         colorBox.setBackgroundColor(cursor.getInt(color_index));
 
         if (cursor.getInt(active_index) == 0) {
+            Log.v("TAG", "false " + id);
             swc.setChecked(false);
         } else {
+            Log.v("TAG", "true " + id);
             swc.setChecked(true);
         }
 
-
         final ContentValues mNewValue = new ContentValues();
 
-
-        swc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        swc.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(flag) {
-                    if (buttonView.isChecked()) {
-                        mNewValue.put(ProfileProvider.ProfileEntry.COL_ACTIVE, 1);
-                    } else {
-                        mNewValue.put(ProfileProvider.ProfileEntry.COL_ACTIVE, 0);
-                    }
-                    context1.getContentResolver().update(ProfileProvider.CONTENT_URI, mNewValue, "_id=" + id, null);
+            public void onClick(View v) {
+                if (((Switch)v).isChecked()) {
+                    mNewValue.put(ProfileProvider.ProfileEntry.COL_ACTIVE, 1);
+                } else {
+                    mNewValue.put(ProfileProvider.ProfileEntry.COL_ACTIVE, 0);
                 }
+                context1.getContentResolver().update(ProfileProvider.CONTENT_URI, mNewValue, "_id=" + id, null);
             }
         });
+
+//        swc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(flag) {
+//                    if (buttonView.isChecked()) {
+//                        mNewValue.put(ProfileProvider.ProfileEntry.COL_ACTIVE, 1);
+//                    } else {
+//                        mNewValue.put(ProfileProvider.ProfileEntry.COL_ACTIVE, 0);
+//                    }
+//                    Log.v("AASDA", "" + id);
+//                    context1.getContentResolver().update(ProfileProvider.CONTENT_URI, mNewValue, "_id=" + id, null);
+//                }
+//            }
+//        });
 
     }
 }
