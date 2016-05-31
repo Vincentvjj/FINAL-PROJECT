@@ -46,6 +46,7 @@ public class ListProfiles extends AppCompatActivity implements LoaderManager.Loa
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.v(TAG, "---------------------------");
@@ -63,7 +64,6 @@ public class ListProfiles extends AppCompatActivity implements LoaderManager.Loa
 
         super.onCreate(savedInstanceState);
     }
-
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
