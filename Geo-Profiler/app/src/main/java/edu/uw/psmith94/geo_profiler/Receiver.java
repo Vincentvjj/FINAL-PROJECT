@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.provider.Telephony;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -40,23 +41,20 @@ public class Receiver extends BroadcastReceiver {
 
             String dayContent = "";
 
-            switch (today) {
-                case 1:
-                    dayContent = Profile.SUN;
-                case 2:
-                    dayContent = Profile.MON;
-                case 3:
-                    dayContent = Profile.TUE;
-                case 4:
-                    dayContent = Profile.WED;
-                case 5:
-                    dayContent = Profile.THU;
-                case 6:
-                    dayContent = Profile.FRI;
-                case 7:
-                    dayContent = Profile.SAT;
-                default:
-                    dayContent = Profile.MON;
+            if(today == 1) {
+                dayContent = Profile.SUN;
+            } else if (today == 2) {
+                dayContent = Profile.MON;
+            } else if (today == 3) {
+                dayContent = Profile.TUE;
+            }else if (today == 4) {
+                dayContent = Profile.WED;
+            }else if (today == 5) {
+                dayContent = Profile.THU;
+            } else if (today == 6) {
+                dayContent = Profile.FRI;
+            } else if (today == 7) {
+                dayContent = Profile.SUN;
             }
 
             String[] projection = new String[]{Profile.ID, Profile.LAT, Profile.LNG, Profile.SHAPE, Profile.MESSAGE,
@@ -65,10 +63,9 @@ public class Receiver extends BroadcastReceiver {
             String whereClause = Profile.ACTIVE + "= 1" + " AND " + dayContent + " = 1";
 
             Cursor cur = context.getContentResolver().query(ProfileProvider.CONTENT_URI, projection,
-                    whereClause, null, Profile.ID + "ASC");
+                    whereClause, null, null);
 
-
-
+            
             Location lo = getLastKnownLocation(context);
             if(lo == null) {
                 Toast.makeText(context, "Please turn on location to auto-reply", Toast.LENGTH_LONG).show();
@@ -94,12 +91,12 @@ public class Receiver extends BroadcastReceiver {
                         if (cur.getInt(cur.getColumnIndex(Profile.SHAPE)) == 0) {
                             Location.distanceBetween(lo.getLatitude(), lo.getLongitude(), lat, lng, distance);
 
-                            if (distance[0] >= cur.getInt(cur.getColumnIndex(Profile.RADIUS))) {
-
+                            Log.v("TAG", distance[0] + "");
+                            Log.v("TAG", cur.getInt(cur.getColumnIndex(Profile.RADIUS)) + "");
+                            if (distance[0] <= cur.getInt(cur.getColumnIndex(Profile.RADIUS))) {
                                 SmsManager smsManager = SmsManager.getDefault();
                                 smsManager.sendTextMessage(author, null, cur.getString(cur.getColumnIndex(Profile.MESSAGE))
                                         , null, null);
-                                break;
                             }
                         } else {
                             double radius = cur.getInt(cur.getColumnIndex(Profile.RADIUS));
@@ -114,7 +111,6 @@ public class Receiver extends BroadcastReceiver {
                                 SmsManager smsManager = SmsManager.getDefault();
                                 smsManager.sendTextMessage(author, null, cur.getString(cur.getColumnIndex(Profile.MESSAGE))
                                         , null, null);
-                                break;
                             }
                         }
                     }
